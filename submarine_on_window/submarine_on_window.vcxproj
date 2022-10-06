@@ -127,6 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="controls.h" />
+    <ClInclude Include="draw.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="game_area.h" />
     <ClInclude Include="ships.h" />
@@ -136,6 +138,7 @@
     <ClInclude Include="tests.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="pc_engine.c" />
     <ClCompile Include="submarine_on_window.c" />
   </ItemGroup>
   <ItemGroup>
