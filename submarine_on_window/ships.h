@@ -245,23 +245,7 @@ int check_all_cell_is_valid(struct ship* new_ship, int area[12][12])
     return 0;
 }
 
-
-get_ship_id_by_cell(struct game_area* area, int x, int y)
-{
-    //for (int i = 0; i < area->ship_counter; i++)
-    //{
-    //    for (int j = 0; j < area->ships[i]deck_count, j++;)
-    //    {
-    //        if (area->ships[i].coords[j][0] == x && &area->ships[i].coords[j][1] == y)
-    //        {
-    //            return i;
-    //        }
-    //    }
-    //}
-    return -1;
-}
-
-struct ship generate_ship(int area[12][12], int deck_count)
+struct ship generate_ship(int area[12][12], int deck_count, int id)
 {
     struct ship new_ship;
     int start_x, start_y;
@@ -280,6 +264,7 @@ struct ship generate_ship(int area[12][12], int deck_count)
     while (1)
     {
         new_ship.is_valid = 1;
+        new_ship.id = id;
         new_ship.current_health = deck_count;
         new_ship.max_health = deck_count;
         start_coordinates = get_free_cell(area); // find free cell
@@ -309,3 +294,4 @@ struct ship generate_ship(int area[12][12], int deck_count)
     }
     return new_ship;
 }
+

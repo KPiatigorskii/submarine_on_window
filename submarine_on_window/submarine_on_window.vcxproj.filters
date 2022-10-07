@@ -36,9 +36,18 @@
     <ClInclude Include="game_area.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="draw.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="controls.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="submarine_on_window.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="pc_engine.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
