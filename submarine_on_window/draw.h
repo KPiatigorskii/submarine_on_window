@@ -76,27 +76,34 @@ void PCHitCell(struct game_area* game_area, HWND hWnd, HWND hStaticLabel, HWND h
     SetWindowText(hStaticLabel, L"PC turn! ");
     while (1)
     {
-        int cell_x = rand() % 10 + 1;
-        int cell_y = rand() % 10 + 1;
-
-        Sleep(10);
+        //int cell_x = rand() % 10 + 1;
+        //int cell_y = rand() % 10 + 1;
+        int* position_ptr;
+        position_ptr = get_next_cell();
+        int arr[2];
+        int cell_x = *(position_ptr);
+        int cell_y = *(position_ptr + 1);
+        Sleep(1000);
 
         if (cell_x < 11 && cell_x >= 1 && cell_y >= 1 && cell_y < 11)
         {
             if (cell_is_not_clicked(game_area, cell_x, cell_y))
             {
                 DestroyWindow(hCell[cell_y][cell_x]);
+                Sleep(1000);
                 game_area->clicked_cells[game_area->move_counter][0] = cell_y;
                 game_area->clicked_cells[game_area->move_counter][1] = cell_x;
                 game_area->move_counter++;
                 game_area->checked_cells_count++;
                 if (hitCell(game_area, hCellImage, cell_x, cell_y, hWnd, hCellImage) == 2)
                 {
+                    set_weight(cell_x, cell_y, 3);
                     pc_turn = 1;
                     user_turn = 0;
                 }
                 else
                 {
+                    set_weight(cell_x, cell_y, -1);
                     pc_turn = 0;
                     user_turn = 1;
                     SetWindowText(hStaticLabel, L"Your turn! ");

@@ -7,6 +7,7 @@
 #include "game_flow.h"
 #include "draw.h"
 #include "controls.h"
+#include "pc_engine.h"
 
 
 
@@ -18,6 +19,8 @@ HINSTANCE g_hInst;
 
 struct game_area game_user_area;
 struct game_area game_pc_area;
+
+struct pc_engine pc_engine;
 
 int ships_is_generated = 0;
 int game_is_on = 0;
@@ -91,6 +94,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             ships_is_generated = 0;
             AddGameControls(hWnd);
             game_pc_area = init_game_area(500, 30, 1);
+            pc_engine = init_pc_logic();
             loadDefaultImages(hWnd, &hPCCell);
             break;
         case GENERATE_SHIPS:
