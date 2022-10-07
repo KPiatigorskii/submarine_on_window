@@ -6,14 +6,9 @@
 #include "game_area.h"
 #include "game_flow.h"
 #include "draw.h"
+#include "controls.h"
 
-#define FILE_MENU_NEW 1
-#define TEST 2
-#define FILE_MENU_EXIT 3
-#define NEW_GAME 4
-#define NEW_GAME_WITH_PC 5
-#define GENERATE_SHIPS 6
-#define START_GAME 7
+
 
 static  HWND hStaticLabel;
 
@@ -23,12 +18,7 @@ HINSTANCE g_hInst;
 
 struct game_area game_user_area;
 struct game_area game_pc_area;
-int* checkCellPosition(struct game_area* ,int, int);
-//int cell_is_not_clicked(struct game_area*, int, int);
 
-void changeImage(int, int, int ,HWND );
-void change_other_image(struct game_area*, HWND, HWND);
-void decrease_ship_health(struct game_area*, int);
 int ships_is_generated = 0;
 int game_is_on = 0;
 int try_counter = 0;
@@ -36,19 +26,17 @@ int dead_ships_count = 0;
 int pc_turn = 0;
 int user_turn = 0;
 
-void AddMenus(HWND);
-void AddControls(HWND);
-void AddGameControls(HWND);
+
 
 LRESULT CALLBACK WindProc(HWND, UINT, WPARAM, LPARAM);
 
 HWND hLogo;
 HWND hUserCell[12][12] = { NULL };
 HWND hPCCell[12][12] = {NULL};
-HWND hUserArea, hPCArea, hWndExample, hWndTurn, hGenerateButton;
+HWND hUserArea, hPCArea, hWndExample, hWndTurn;
 
-HMENU hMenu;
-HBITMAP hLogoImage, hCellUserImage[12][12], hCellPCImage[12][12], hGenerateImage, hStartGameButton;
+
+HBITMAP hLogoImage, hCellUserImage[12][12], hCellPCImage[12][12], hGenerateImage;
 HBITMAP hBitmap;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -102,13 +90,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         case NEW_GAME_WITH_PC:
             ships_is_generated = 0;
             AddGameControls(hWnd);
-            //AddControls(hWnd);
             game_pc_area = init_game_area(500, 30, 1);
             loadDefaultImages(hWnd, &hPCCell);
             break;
         case GENERATE_SHIPS:
             game_user_area = init_game_area(30, 30, 0);
-            open_area(&game_user_area, hWnd, hUserCell);
+            open_area(&game_user_area, hWnd, &hUserCell);
             ships_is_generated = 1;
             break;
         case START_GAME:
@@ -164,54 +151,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
     return 0;
 }
-
-void AddMenus(HWND hWnd)
-{
-    hMenu = CreateMenu();
-    HMENU hFileMenu = CreateMenu();
-
-    HMENU hSubMenu = CreateMenu();
-
-    AppendMenu(hSubMenu, MF_STRING, NULL, L"SubMenu");
-    AppendMenu(hFileMenu, MF_STRING, NEW_GAME_WITH_PC, L"New game with PC");
-    AppendMenu(hFileMenu, MF_SEPARATOR, NULL, NULL);
-    AppendMenu(hFileMenu, MF_STRING, FILE_MENU_EXIT, L"Exit");
-
-
-    AppendMenu(hMenu, MF_POPUP, (UINT_PTR) hFileMenu, L"File");
-    AppendMenu(hMenu, MF_STRING, 2, L"Help");
-    SetMenu(hWnd, hMenu);
-}
-
-void AddGameControls(HWND hWnd) 
-{
-    hGenerateButton = CreateWindowW(L"Button", L"Generate ships", WS_VISIBLE | WS_CHILD, 200, 480, 120, 20, hWnd, (HMENU) GENERATE_SHIPS, NULL, NULL);
-    hStartGameButton = CreateWindowW(L"Button", L"Start game", WS_VISIBLE | WS_CHILD, 400, 480, 120, 20, hWnd, (HMENU)START_GAME, NULL, NULL);
-
-}
-
-void AddControls(HWND hWnd)
-{
-    int start_pos_x = 500;
-    int start_pos_y = 30;
-    for (int i = 1; i < 11; i++)
-    {
-        for (int j = 1; j < 11; j++)
-        {
-            hPCCell[i][j] = CreateWindowW(L"static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, start_pos_x+35*j, start_pos_y+35*i, 120, 120, hWnd, NULL, NULL, NULL);
-            SendMessageW(hPCCell[i][j], STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hCellPCImage[i][j]);
-        }
-    }
-}
-
-//int check_dead_ship(struct game_area* game_area, int  ship_id)
-//{
-//    if (game_area->ships[ship_id].current_health == 0)
-//        return 1;
-//    else
-//        return 0;
-//}
-
 
 
 

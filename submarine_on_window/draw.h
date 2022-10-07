@@ -2,7 +2,7 @@ extern int pc_turn;
 extern int user_turn;
 extern int game_is_on;
 
-void open_area(struct game_area* game_area, HWND hWnd, HWND hCell[12][12])
+void open_area(struct game_area* game_area, HWND hWnd, HWND* hCell[12][12])
 {
     HBITMAP hCellImageChange;
 
