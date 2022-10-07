@@ -158,14 +158,14 @@ int hitCell(struct game_area* game_area, HWND hCell[12][12], int x, int y, HWND 
         }
         if (game_area->dead_ships_count == 10)
         {
-            if (game_area->game_entity == USER)
+            if (game_area->game_entity == PC)
             {
                 //change_other_image(game_area, hUserCell, hWnd);
                 MessageBox(NULL, TEXT("YOU'RE WINNER!"),
                     TEXT("win window"), MB_ICONHAND);
                 game_is_on = 0;
             }
-            if (game_area->game_entity == PC)
+            if (game_area->game_entity == USER)
             {
                 //change_other_image(game_area, hPCCell, hWnd);
                 MessageBox(NULL, TEXT("YOU'RE NOT WINNER! YOU SUCK!"),
