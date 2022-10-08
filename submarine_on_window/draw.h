@@ -176,3 +176,13 @@ int hitCell(struct game_area* game_area, HWND hCell[12][12], int x, int y, HWND 
     return game_area->area[y][x];
 }
 
+void clear_area(HWND hCell[12][12])
+{
+    for (int y = 1; y < 11; y++)
+    {
+        for (int x = 1; x < 11; x++) 
+        {
+            DestroyWindow(hCell[y][x]);
+        }
+    }
+}
