@@ -12,6 +12,7 @@
 #include <mmsystem.h>
 
 #define ID_TIMER 1
+#define IDB_BITMAP1 101
 
 static  HWND hStaticLabel;
 
