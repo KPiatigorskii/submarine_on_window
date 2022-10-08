@@ -12,7 +12,6 @@
 #include <mmsystem.h>
 
 #define ID_TIMER 1
-#define IDB_BITMAP1 101
 
 static  HWND hStaticLabel;
 
@@ -113,7 +112,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             clear_area(hPCCell);
             clear_area(hUserCell);
             game_pc_area = init_game_area(500, 30, 1);
-            loadDefaultImages(hWnd, &hPCCell);
+            loadDefaultImages(&game_pc_area, hWnd, &hPCCell);
             break;
         case GENERATE_SHIPS:
             if (!game_is_on)
