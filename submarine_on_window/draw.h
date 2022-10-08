@@ -68,8 +68,6 @@ void change_other_image(struct game_area* game_area, HWND hCell[12][12], HWND hW
 
 void PCHitCell(struct game_area* game_area, HWND hWnd, HWND hStaticLabel, HWND hCell[12][12])
 {
-    HBITMAP hCellImage;
-
     while (1)
     {
         int cell_x = rand() % 10 + 1;
