@@ -8,7 +8,7 @@
 #include "draw.h"
 #include "controls.h"
 
-
+#define ID_TIMER 1
 
 static  HWND hStaticLabel;
 
@@ -46,6 +46,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
     switch (msg)
     {
+    case WM_TIMER:
+        if (pc_turn) 
+        {
+            SetWindowText(hStaticLabel, L"PC turn! ");
+            Sleep(1000);
+            PCHitCell(&game_user_area, hWnd, hStaticLabel, hUserCell, hCellUserImage);
+
+        }
+        break;
     case WM_LBUTTONUP:
         if (game_is_on == 1) {
 
@@ -75,7 +84,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
                     {
                         pc_turn = 1;
                         user_turn = 0;
-                        PCHitCell(&game_user_area, hWnd, hStaticLabel, hUserCell, hCellUserImage);
                     }
                 }
             }
@@ -101,8 +109,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         case START_GAME:
             if (ships_is_generated)
             {
+                SetTimer(hWnd, ID_TIMER, 200, NULL);
                 game_is_on = 1;
-                hStaticLabel = CreateWindow(L"Static", L"Your turn", WS_CHILD | WS_VISIBLE, 35, 15, 175, 25, hWnd, 0, g_hInst, 0);
+                hStaticLabel = CreateWindow(L"Static", L"Your turn", WS_CHILD | WS_VISIBLE, 420, 15, 175, 25, hWnd, 0, g_hInst, 0);
                 ShowWindow(GetDlgItem(hGenerateButton, GENERATE_SHIPS), SW_HIDE);
             }
             break;
