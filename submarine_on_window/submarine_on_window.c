@@ -60,7 +60,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         {
             SetWindowText(hStaticLabel, L"PC turn! ");
             Sleep(1000);
-            PCHitCell(&game_user_area, hWnd, hStaticLabel, hUserCell, hCellUserImage);
+            PCHitCell(&game_user_area, hWnd, hStaticLabel, hUserCell);
 
         }
         break;
@@ -84,7 +84,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
                     game_pc_area.clicked_cells[game_pc_area.move_counter][1] = cell_x;
                     game_pc_area.move_counter++;
                     game_pc_area.checked_cells_count++;
-                    if (hitCell(&game_pc_area, hPCCell, cell_x, cell_y, hWnd, hCellPCImage) == 2)
+                    if (hitCell(&game_pc_area, hPCCell, cell_x, cell_y, hWnd) == 2)
                     {
                         pc_turn = 0;
                         user_turn = 1;

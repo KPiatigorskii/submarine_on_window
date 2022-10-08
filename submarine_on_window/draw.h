@@ -71,8 +71,10 @@ void change_other_image(struct game_area* game_area, HWND hCell[12][12], HWND hW
 
 
 
-void PCHitCell(struct game_area* game_area, HWND hWnd, HWND hStaticLabel, HWND hCell[12][12], HWND hCellImage)
+void PCHitCell(struct game_area* game_area, HWND hWnd, HWND hStaticLabel, HWND hCell[12][12])
 {
+    HBITMAP hCellImage;
+
     while (1)
     {
         int cell_x = rand() % 10 + 1;
@@ -89,7 +91,7 @@ void PCHitCell(struct game_area* game_area, HWND hWnd, HWND hStaticLabel, HWND h
                 game_area->clicked_cells[game_area->move_counter][1] = cell_x;
                 game_area->move_counter++;
                 game_area->checked_cells_count++;
-                if (hitCell(game_area, hCellImage, cell_x, cell_y, hWnd, hCellImage) == 2)
+                if (hitCell(game_area, hCell, cell_x, cell_y, hWnd) == 2)
                 {
                     pc_turn = 1;
                     user_turn = 0;
@@ -107,8 +109,9 @@ void PCHitCell(struct game_area* game_area, HWND hWnd, HWND hStaticLabel, HWND h
 }
 
 
-void change_around_image(struct game_area* game_area, int ship_id, HWND hWnd, HWND hCell[12][12], HBITMAP hCellImage)
+void change_around_image(struct game_area* game_area, int ship_id, HWND hWnd, HWND hCell[12][12])
 {
+    HBITMAP hCellImage;
 
     for (int i = 0; i < game_area->ships[ship_id].deck_count * 2 + 6; i++)
     {
