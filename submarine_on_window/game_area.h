@@ -17,6 +17,13 @@ struct game_area
     struct ship ships[SHIPS_COUNT];
 } game_area;
 
+void increment_clicked_cells(struct game_area* game_area, int x, int y)
+{
+    game_area->clicked_cells[game_area->checked_cells_count][0] = y;
+    game_area->clicked_cells[game_area->checked_cells_count][1] = x;
+    game_area->checked_cells_count++;
+}
+
 struct game_area init_game_area(int start_pos_x,int start_pos_y, enum game_entity game_entity)
 {
     game_area.ship_counter = 0;
