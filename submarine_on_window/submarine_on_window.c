@@ -1,4 +1,6 @@
-﻿#include <windows.h>
+﻿#pragma comment (lib , "winmm.lib")
+
+#include <windows.h>
 #include <windowsx.h>
 #include <stdio.h>
 #include <string.h>
@@ -7,8 +9,10 @@
 #include "game_flow.h"
 #include "draw.h"
 #include "controls.h"
+#include <mmsystem.h>
 
 #define ID_TIMER 1
+#define IDB_BITMAP1 101
 
 static  HWND hStaticLabel;
 
@@ -43,6 +47,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     int mouse_x;
     int mouse_y;
+    static TCHAR* intro_sound = TEXT("intro_sound.wav");
+    static TCHAR* start_game_sound = TEXT("start_game.wav");
+    static TCHAR* win_game_sound = TEXT("win_game.wav");
+    static TCHAR* game_over_sound = TEXT("game_over.wav");
+
 
     switch (msg)
     {
@@ -109,6 +118,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         case START_GAME:
             if (ships_is_generated)
             {
+                PlaySound(start_game_sound, NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
                 SetTimer(hWnd, ID_TIMER, 200, NULL);
                 game_is_on = 1;
                 hStaticLabel = CreateWindow(L"Static", L"Your turn", WS_CHILD | WS_VISIBLE, 420, 15, 175, 25, hWnd, 0, g_hInst, 0);
@@ -122,6 +132,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             break;
         }
     case WM_CREATE:
+        //PlaySound(intro_sound, NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
         AddMenus(hWnd);
         break;
     case 4:
@@ -139,7 +150,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
     WNDCLASSW wc = { 0 };
 
-    wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
+    wc.hbrBackground = CreatePatternBrush((HBITMAP)LoadImageW(NULL, (LPCWSTR)L"bg.bmp", IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE));
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.hInstance = hInstance;
     wc.lpszClassName = L"myWindowClass";
