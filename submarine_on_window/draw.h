@@ -73,7 +73,6 @@ void change_other_image(struct game_area* game_area, HWND hCell[12][12], HWND hW
 
 void PCHitCell(struct game_area* game_area, HWND hWnd, HWND hStaticLabel, HWND hCell[12][12], HWND hCellImage)
 {
-    SetWindowText(hStaticLabel, L"PC turn! ");
     while (1)
     {
         int cell_x = rand() % 10 + 1;
