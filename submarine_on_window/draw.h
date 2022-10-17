@@ -1,7 +1,20 @@
+
+#include "controls.h"
+
 extern int pc_turn;
 extern int user_turn;
 extern int game_is_on;
-extern HWND hStaticLabel;
+
+
+
+HDC          hdc;
+HBRUSH  NewBrush;
+HINSTANCE g_hInst;
+
+HWND hUserCell[12][12] = { NULL };
+HWND hPCCell[12][12] = { NULL };
+
+void clear_all_window(hWnd);
 
 void open_area(struct game_area* game_area, HWND hWnd, HWND* hCell[12][12])
 {
@@ -43,9 +56,10 @@ void loadDefaultImages(struct game_area* game_area, HWND hWnd, HWND* hCell[12][1
 void change_other_image(struct game_area* game_area, HWND hCell[12][12], HWND hWnd)
 {
     HBITMAP hCellImageChange = (HBITMAP)LoadImageW(NULL, (LPCWSTR)L"square32dot.bmp", IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
-    int start_pos_x = 500;
-    int start_pos_y = 30;
-
+    int start_pos_x;
+    int start_pos_y;
+    start_pos_x = game_area->start_pos_x;
+    start_pos_y = game_area->start_pos_y;
     for (int i = 1; i < 12; i++)
     {
         for (int j = 1; j < 12; j++)
@@ -120,20 +134,21 @@ int hitCell(struct game_area* game_area, HWND hCell[12][12], int x, int y, HWND 
         }
         if (game_area->dead_ships_count == 10)
         {
-            if (game_area->game_entity == PC)
+            if (game_area->game_entity == PC_ENTITY)
             {
                 //change_other_image(game_area, hUserCell, hWnd);
                 MessageBox(NULL, TEXT("YOU'RE WINNER!"),
                     TEXT("win window"), MB_ICONHAND);
                 game_is_on = 0;
             }
-            if (game_area->game_entity == USER)
+            if (game_area->game_entity == USER_ENTITY)
             {
                 //change_other_image(game_area, hPCCell, hWnd);
                 MessageBox(NULL, TEXT("YOU'RE NOT WINNER! YOU SUCK!"),
                     TEXT("win window"), MB_ICONHAND);
                 game_is_on = 0;
             }
+            clear_all_window();
         }
     }
     else {
@@ -149,6 +164,18 @@ int hitCell(struct game_area* game_area, HWND hCell[12][12], int x, int y, HWND 
 
     }
     return game_area->area[y][x];
+}
+
+void clear_all_window() {
+    for (int i = 1; i < 11; i++)
+    {
+        for (int j = 1; j < 11; j++) {
+            DestroyWindow(hPCCell[i][j]);
+            DestroyWindow(hUserCell[i][j]);
+        }
+    }
+    RemoveGameControls();
+
 }
 
 void clear_area(HWND hCell[12][12])

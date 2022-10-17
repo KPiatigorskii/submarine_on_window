@@ -8,11 +8,14 @@
 #include "game_area.h"
 #include "game_flow.h"
 #include "draw.h"
-#include "controls.h"
 #include <mmsystem.h>
 
 #define ID_TIMER 1
 #define IDB_BITMAP1 101
+#define START_X_USER_POSITION 30
+#define START_Y_USER_POSITION 30
+#define START_X_PC_POSITION 500
+#define START_Y_PC_POSITION 30
 
 // delete magical numbers
 // add BOOL nums
@@ -24,11 +27,7 @@
 // 
 // change menu mb
 
-static  HWND hStaticLabel;
 
-HDC          hdc;
-HBRUSH  NewBrush;
-HINSTANCE g_hInst;
 
 struct game_area game_user_area;
 struct game_area game_pc_area;
@@ -44,8 +43,7 @@ int user_turn = 0;
 LRESULT CALLBACK WindProc(HWND, UINT, WPARAM, LPARAM);
 
 HWND hLogo;
-HWND hUserCell[12][12] = { NULL };
-HWND hPCCell[12][12] = {NULL};
+
 HWND hUserArea, hPCArea, hWndExample, hWndTurn;
 
 HBITMAP hLogoImage, hCellUserImage[12][12], hCellPCImage[12][12], hGenerateImage;
@@ -113,14 +111,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             AddGameControls(hWnd);
             clear_area(hPCCell);
             clear_area(hUserCell);
-            game_pc_area = init_game_area(500, 30, 1);
+            game_pc_area = init_game_area(START_X_PC_POSITION, START_Y_PC_POSITION, PC_ENTITY);
+            game_user_area = init_game_area(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
             loadDefaultImages(&game_pc_area, hWnd, &hPCCell);
+            loadDefaultImages(&game_user_area, hWnd, &hUserCell);
             break;
         case GENERATE_SHIPS:
             if (!game_is_on)
             {
                 clear_area(hUserCell);
-                game_user_area = init_game_area(30, 30, 0);
+                //game_user_area = init_game_area(30, 30, 0);
                 open_area(&game_user_area, hWnd, &hUserCell);
                 clear_area(hPCCell);
                 open_area(&game_pc_area, hWnd, &hPCCell);

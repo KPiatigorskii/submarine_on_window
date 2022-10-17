@@ -6,8 +6,8 @@
 #define GENERATE_SHIPS 6
 #define START_GAME 7
 
-HMENU hMenu, hGenerateButton;
-HBITMAP hStartGameButton;
+HWND hMenu, hGenerateButton, hStartGameButton;
+static  HWND hStaticLabel;
 
 void AddMenus(HWND hWnd)
 {
@@ -32,4 +32,11 @@ void AddGameControls(HWND hWnd)
     hGenerateButton = CreateWindowW(L"Button", L"Generate ships", WS_VISIBLE | WS_CHILD, 200, 480, 120, 20, hWnd, (HMENU)GENERATE_SHIPS, NULL, NULL);
     hStartGameButton = CreateWindowW(L"Button", L"Start game", WS_VISIBLE | WS_CHILD, 400, 480, 120, 20, hWnd, (HMENU)START_GAME, NULL, NULL);
 
+}
+
+void RemoveGameControls() 
+{
+    DestroyWindow(hGenerateButton);
+    DestroyWindow(hStartGameButton); 
+    DestroyWindow(hStaticLabel);
 }
