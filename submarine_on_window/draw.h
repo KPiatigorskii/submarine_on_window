@@ -115,10 +115,7 @@ void change_around_image(struct game_area* game_area, int ship_id, HWND hWnd, HW
         {
             if (cell_is_not_clicked(game_area, dead_x, dead_y))
             {
-
-                game_area->clicked_cells[game_area->checked_cells_count][0] = dead_y;
-                game_area->clicked_cells[game_area->checked_cells_count][1] = dead_x;
-                game_area->checked_cells_count++;
+                increment_clicked_cells(game_area, dead_x, dead_y);
                 DestroyWindow(hCell[dead_y][dead_x]);
                 hCell[dead_y][dead_x] = CreateWindowW(L"static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, game_area->start_pos_x + 35 * dead_x, game_area->start_pos_y + 35 * dead_y, NULL, NULL, hWnd, NULL, NULL, NULL);
                 hCellImage = (HBITMAP)LoadImageW(NULL, (LPCWSTR)L"square32dot.bmp", IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);

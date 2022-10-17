@@ -249,12 +249,10 @@ struct ship generate_ship(int area[12][12], int deck_count, int id)
 {
     struct ship new_ship;
     int start_x, start_y;
-    int stop_x, stop_y;
     enum ship_directions direction;
     int* start_coordinates;
     int* multipliers;
     int* stop_coordinates;
-    int* ship_coordinates;
 
     new_ship.deck_count = deck_count;
 

@@ -31,14 +31,12 @@ int pc_turn = 0;
 int user_turn = 0;
 
 
-
 LRESULT CALLBACK WindProc(HWND, UINT, WPARAM, LPARAM);
 
 HWND hLogo;
 HWND hUserCell[12][12] = { NULL };
 HWND hPCCell[12][12] = {NULL};
 HWND hUserArea, hPCArea, hWndExample, hWndTurn;
-
 
 HBITMAP hLogoImage, hCellUserImage[12][12], hCellPCImage[12][12], hGenerateImage;
 HBITMAP hBitmap;
@@ -66,25 +64,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         break;
     case WM_LBUTTONUP:
         if (game_is_on == 1) {
-
             mouse_x = GET_X_LPARAM(lParam);
             mouse_y = GET_Y_LPARAM(lParam);
-
             int cell_x, cell_y;
             int* position_ptr;
+
             position_ptr = checkCellPosition(&game_pc_area, mouse_x, mouse_y);
-            int arr[2];
-            cell_x = *(position_ptr);
-            cell_y = *(position_ptr + 1);
+            cell_x = position_ptr[0];
+            cell_y = position_ptr[1];
+
             if (cell_x < 11 && cell_x >= 1 && cell_y >= 1 && cell_y < 11) {
                 if (cell_is_not_clicked(&game_pc_area, cell_x, cell_y))
                 {
-                    DestroyWindow(hPCCell[cell_y][cell_x]);
-                    game_pc_area.clicked_cells[game_pc_area.move_counter][0] = cell_y;
-                    game_pc_area.clicked_cells[game_pc_area.move_counter][1] = cell_x;
+                    DestroyWindow(hPCCell[cell_y][cell_x]); // delete clicked cell
+                    increment_clicked_cells(&game_pc_area, cell_x, cell_y);
                     game_pc_area.move_counter++;
-                    game_pc_area.checked_cells_count++;
-                    if (hitCell(&game_pc_area, hPCCell, cell_x, cell_y, hWnd) == 2)
+
+                    if (hitCell(&game_pc_area, hPCCell, cell_x, cell_y, hWnd, hCellPCImage) == 2)
+
                     {
                         pc_turn = 0;
                         user_turn = 1;
