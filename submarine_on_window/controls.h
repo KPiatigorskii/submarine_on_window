@@ -29,9 +29,8 @@ void AddMenus(HWND hWnd)
 
 void AddGameControls(HWND hWnd)
 {
-    hGenerateButton = CreateWindowW(L"Button", L"Generate ships", WS_VISIBLE | WS_CHILD, 200, 480, 120, 20, hWnd, (HMENU)GENERATE_SHIPS, NULL, NULL);
-    hStartGameButton = CreateWindowW(L"Button", L"Start game", WS_VISIBLE | WS_CHILD, 400, 480, 120, 20, hWnd, (HMENU)START_GAME, NULL, NULL);
-
+    hGenerateButton = CreateWindowW(L"Button", L"Generate ships", WS_VISIBLE | WS_CHILD, 395, 480, 140, 20, hWnd, (HMENU)GENERATE_SHIPS, NULL, NULL);
+    hStartGameButton = CreateWindowW(L"Button", L"Start game", WS_VISIBLE | WS_CHILD, 655, 480, 140, 20, hWnd, (HMENU)START_GAME, NULL, NULL);
 }
 
 void RemoveGameControls() 
