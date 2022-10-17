@@ -12,10 +12,6 @@
 
 #define ID_TIMER 1
 #define IDB_BITMAP1 101
-#define START_X_USER_POSITION 30
-#define START_Y_USER_POSITION 30
-#define START_X_PC_POSITION 500
-#define START_Y_PC_POSITION 30
 
 // delete magical numbers
 // add BOOL nums
@@ -109,31 +105,34 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             user_turn = 0;
             pc_turn = 0;
             AddGameControls(hWnd);
-            clear_area(hPCCell);
-            clear_area(hUserCell);
+
             game_pc_area = init_game_area(START_X_PC_POSITION, START_Y_PC_POSITION, PC_ENTITY);
             game_user_area = init_game_area(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
+            
+            clear_area(hPCCell);
             loadDefaultImages(&game_pc_area, hWnd, &hPCCell);
+
+            clear_area(hUserCell);
             loadDefaultImages(&game_user_area, hWnd, &hUserCell);
             break;
         case GENERATE_SHIPS:
             if (!game_is_on)
             {
                 clear_area(hUserCell);
-                //game_user_area = init_game_area(30, 30, 0);
                 open_area(&game_user_area, hWnd, &hUserCell);
-                clear_area(hPCCell);
-                open_area(&game_pc_area, hWnd, &hPCCell);
+                //clear_area(hPCCell); // uncomment for debug and see all PC ships
+                //open_area(&game_pc_area, hWnd, &hPCCell);
                 ships_is_generated = 1;
             }
             break;
         case START_GAME:
             if (!game_is_on && ships_is_generated)
             {
+                DestroyWindow(hGenerateButton);
                 PlaySound(start_game_sound, NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
                 SetTimer(hWnd, ID_TIMER, 200, NULL);
                 game_is_on = 1;
-                hStaticLabel = CreateWindow(L"Static", L"Your turn", WS_CHILD | WS_VISIBLE, 420, 15, 175, 25, hWnd, 0, g_hInst, 0);
+                hStaticLabel = CreateWindow(L"Static", L"Your turn", WS_CHILD | WS_VISIBLE | SS_CENTER, 535, 15, 120, 25, hWnd, 0, g_hInst, 0);
                 ShowWindow(GetDlgItem(hGenerateButton, GENERATE_SHIPS), SW_HIDE);
             }
             break;
@@ -144,7 +143,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             break;
         }
     case WM_CREATE:
-        //PlaySound(intro_sound, NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
         AddMenus(hWnd);
         break;
     case 4:

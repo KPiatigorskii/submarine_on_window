@@ -5,8 +5,10 @@ extern int pc_turn;
 extern int user_turn;
 extern int game_is_on;
 
-
-
+#define START_X_USER_POSITION 150
+#define START_Y_USER_POSITION 30
+#define START_X_PC_POSITION 620
+#define START_Y_PC_POSITION 30
 HDC          hdc;
 HBRUSH  NewBrush;
 HINSTANCE g_hInst;
