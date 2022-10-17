@@ -58,7 +58,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         {
             SetWindowText(hStaticLabel, L"PC turn! ");
             Sleep(1000);
-            PCHitCell(&game_user_area, hWnd, hStaticLabel, hUserCell, hCellUserImage);
+            PCHitCell(&game_user_area, hWnd, hStaticLabel, hUserCell);
 
         }
         break;
@@ -81,6 +81,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
                     game_pc_area.move_counter++;
 
                     if (hitCell(&game_pc_area, hPCCell, cell_x, cell_y, hWnd, hCellPCImage) == 2)
+
                     {
                         pc_turn = 0;
                         user_turn = 1;
@@ -102,17 +103,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         {
         case NEW_GAME_WITH_PC:
             ships_is_generated = 0;
+            game_is_on = 0;
+            user_turn = 0;
+            pc_turn = 0;
             AddGameControls(hWnd);
+            clear_area(hPCCell);
+            clear_area(hUserCell);
             game_pc_area = init_game_area(500, 30, 1);
-            loadDefaultImages(hWnd, &hPCCell);
+            loadDefaultImages(&game_pc_area, hWnd, &hPCCell);
             break;
         case GENERATE_SHIPS:
-            game_user_area = init_game_area(30, 30, 0);
-            open_area(&game_user_area, hWnd, &hUserCell);
-            ships_is_generated = 1;
+            if (!game_is_on)
+            {
+                clear_area(hUserCell);
+                game_user_area = init_game_area(30, 30, 0);
+                open_area(&game_user_area, hWnd, &hUserCell);
+                ships_is_generated = 1;
+            }
             break;
         case START_GAME:
-            if (ships_is_generated)
+            if (!game_is_on && ships_is_generated)
             {
                 PlaySound(start_game_sound, NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
                 SetTimer(hWnd, ID_TIMER, 200, NULL);

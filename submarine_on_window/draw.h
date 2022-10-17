@@ -25,26 +25,22 @@ void open_area(struct game_area* game_area, HWND hWnd, HWND* hCell[12][12])
     }
 }
 
-void loadDefaultImages(HWND hWnd, HWND* hCell[12][12] )
+void loadDefaultImages(struct game_area* game_area, HWND hWnd, HWND* hCell[12][12])
 {
-    int start_pos_x = 500;
-    int start_pos_y = 30;
-    HBITMAP hCellImage[12][12];
-
+    HBITMAP hCellImage = (HBITMAP)LoadImageW(NULL, L"square32red.bmp", IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
     for (int i = 1; i < 11; i++)
     {
         for (int j = 1; j < 11; j++)
         {
-            hCellImage[i][j] = (HBITMAP)LoadImageW(NULL, L"square32red.bmp", IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
-            hCell[i][j] = CreateWindowW(L"static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, start_pos_x + 35 * j, start_pos_y + 35 * i, 120, 120, hWnd, NULL, NULL, NULL);
-            SendMessageW(hCell[i][j], STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hCellImage[i][j]);
+            hCell[i][j] = CreateWindowW(L"static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, game_area->start_pos_x + 35 * j, game_area->start_pos_y + 35 * i, 120, 120, hWnd, NULL, NULL, NULL);
+            SendMessageW(hCell[i][j], STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hCellImage);
         }
     }
 }
 
 void change_other_image(struct game_area* game_area, HWND hCell[12][12], HWND hWnd)
 {
-    HWND hCellImageChange;
+    HBITMAP hCellImageChange = (HBITMAP)LoadImageW(NULL, (LPCWSTR)L"square32dot.bmp", IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
     int start_pos_x = 500;
     int start_pos_y = 30;
 
@@ -61,7 +57,6 @@ void change_other_image(struct game_area* game_area, HWND hCell[12][12], HWND hW
                         start_pos_x + 35 * i,
                         start_pos_y + 35 * j,
                         NULL, NULL, hWnd, NULL, NULL, NULL);
-                    hCellImageChange = (HBITMAP)LoadImageW(NULL, (LPCWSTR)L"square32dot.bmp", IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
                     SendMessageW(hCell[i][j], STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hCellImageChange);
                 }
             }
@@ -71,7 +66,7 @@ void change_other_image(struct game_area* game_area, HWND hCell[12][12], HWND hW
 
 
 
-void PCHitCell(struct game_area* game_area, HWND hWnd, HWND hStaticLabel, HWND hCell[12][12], HWND hCellImage)
+void PCHitCell(struct game_area* game_area, HWND hWnd, HWND hStaticLabel, HWND hCell[12][12])
 {
     while (1)
     {
@@ -89,7 +84,7 @@ void PCHitCell(struct game_area* game_area, HWND hWnd, HWND hStaticLabel, HWND h
                 game_area->clicked_cells[game_area->move_counter][1] = cell_x;
                 game_area->move_counter++;
                 game_area->checked_cells_count++;
-                if (hitCell(game_area, hCellImage, cell_x, cell_y, hWnd, hCellImage) == 2)
+                if (hitCell(game_area, hCell, cell_x, cell_y, hWnd) == 2)
                 {
                     pc_turn = 1;
                     user_turn = 0;
@@ -107,8 +102,9 @@ void PCHitCell(struct game_area* game_area, HWND hWnd, HWND hStaticLabel, HWND h
 }
 
 
-void change_around_image(struct game_area* game_area, int ship_id, HWND hWnd, HWND hCell[12][12], HBITMAP hCellImage)
+void change_around_image(struct game_area* game_area, int ship_id, HWND hWnd, HWND hCell[12][12])
 {
+    HBITMAP hCellImage;
 
     for (int i = 0; i < game_area->ships[ship_id].deck_count * 2 + 6; i++)
     {
@@ -173,3 +169,13 @@ int hitCell(struct game_area* game_area, HWND hCell[12][12], int x, int y, HWND 
     return game_area->area[y][x];
 }
 
+void clear_area(HWND hCell[12][12])
+{
+    for (int y = 1; y < 11; y++)
+    {
+        for (int x = 1; x < 11; x++) 
+        {
+            DestroyWindow(hCell[y][x]);
+        }
+    }
+}
