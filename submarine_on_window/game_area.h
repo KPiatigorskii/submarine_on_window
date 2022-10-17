@@ -1,6 +1,5 @@
 #include "ships.h"
 
-
 enum game_entity {USER_ENTITY=0, PC_ENTITY=1};
 
 struct game_area
