@@ -14,6 +14,16 @@
 #define ID_TIMER 1
 #define IDB_BITMAP1 101
 
+// delete magical numbers
+// add BOOL nums
+// delete PCHIT func - DONE
+// change func names
+// check all old bugs:
+// need pause between pc hits - DONE
+// pc win window not shown
+// 
+// change menu mb
+
 static  HWND hStaticLabel;
 
 HDC          hdc;
@@ -56,10 +66,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_TIMER:
         if (pc_turn) 
         {
+            int cell_x;
+            int cell_y;
             SetWindowText(hStaticLabel, L"PC turn! ");
             Sleep(1000);
-            PCHitCell(&game_user_area, hWnd, hStaticLabel, hUserCell);
-
+            while (1) {
+                cell_x = rand() % 10 + 1;
+                cell_y = rand() % 10 + 1;
+                if (cell_is_not_clicked(&game_user_area, cell_x, cell_y)) {
+                    break;
+                }
+            }
+            hitCell(&game_user_area, hUserCell, cell_x, cell_y, hWnd);
         }
         break;
     case WM_LBUTTONUP:
@@ -76,21 +94,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             if (cell_x < 11 && cell_x >= 1 && cell_y >= 1 && cell_y < 11) {
                 if (cell_is_not_clicked(&game_pc_area, cell_x, cell_y))
                 {
-                    DestroyWindow(hPCCell[cell_y][cell_x]); // delete clicked cell
-                    increment_clicked_cells(&game_pc_area, cell_x, cell_y);
-                    game_pc_area.move_counter++;
-
-                    if (hitCell(&game_pc_area, hPCCell, cell_x, cell_y, hWnd, hCellPCImage) == 2)
-
-                    {
-                        pc_turn = 0;
-                        user_turn = 1;
-                    }
-                    else
-                    {
-                        pc_turn = 1;
-                        user_turn = 0;
-                    }
+                    hitCell(&game_pc_area, hPCCell, cell_x, cell_y, hWnd);
                 }
             }
         }
@@ -118,6 +122,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
                 clear_area(hUserCell);
                 game_user_area = init_game_area(30, 30, 0);
                 open_area(&game_user_area, hWnd, &hUserCell);
+                clear_area(hPCCell);
+                open_area(&game_pc_area, hWnd, &hPCCell);
                 ships_is_generated = 1;
             }
             break;
