@@ -8,6 +8,8 @@
 #define SHIPS_COUNT 10
 #define MAX_DECK_IN_SHIP 4
 
+#define AREA_SIZE_WITH_BORDERS 12
+
 enum ship_directions { UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3 };
 struct ship
 {
@@ -23,7 +25,7 @@ struct ship
 
 struct ship ships[10];
 
-void printArea0(int area[12][12])
+void printArea0(int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
     for (int i = 1; i < 11; i++)
     {
@@ -53,7 +55,7 @@ void printShip(struct ship* new_ship)
     printf("\n====================\n");
 }
 
-int checkCellBorders(int area[12][12], int x, int y)
+int checkCellBorders(int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], int x, int y)
 {
     if (area[y][x] > 10 ||
         area[y][x] > 10 ||
@@ -83,7 +85,7 @@ int cellInShip(struct ship* new_ship, int i, int j)
     return 0;
 }
 
-void fillArea(struct ship* new_ship, int area[12][12])
+void fillArea(struct ship* new_ship, int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
     for (int i = 0; i < new_ship->deck_count; i++)
     {
@@ -96,7 +98,7 @@ void fillArea(struct ship* new_ship, int area[12][12])
 
 }
 
-int setAroundCoordsForShip(struct ship* new_ship, int multipliers[2], int area[12][12])
+int setAroundCoordsForShip(struct ship* new_ship, int multipliers[2], int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
     int start_x = new_ship->coords[0][0];
     int start_y = new_ship->coords[0][1];
@@ -128,7 +130,7 @@ int setAroundCoordsForShip(struct ship* new_ship, int multipliers[2], int area[1
     return 1;
 }
 
-int setAllCoordsForShip(int start_x, int start_y, int* multipliers, enum ship_directions direction, struct ship* new_ship, int area[12][12])
+int setAllCoordsForShip(int start_x, int start_y, int* multipliers, enum ship_directions direction, struct ship* new_ship, int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
     for (int i = 0; i < new_ship->deck_count; i++)
     {
@@ -201,7 +203,7 @@ enum ship_directions getRandomDirection()
     return direction;
 }
 
-int isNeighborsFree(int area[12][12], int start_x, int start_y) {
+int isNeighborsFree(int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], int start_x, int start_y) {
     for (int i = start_y - 1; i < start_y + 2; i++)
     {
         for (int j = start_x - 1; j < start_x + 2; j++)
@@ -216,7 +218,7 @@ int isNeighborsFree(int area[12][12], int start_x, int start_y) {
     return 1;
 }
 
-int* getFreeCell(int area[12][12])
+int* getFreeCell(int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
     int* arr = malloc(2);
     int busy_cell_flag = 0;
@@ -228,7 +230,7 @@ int* getFreeCell(int area[12][12])
     }
 }
 
-int checkAllCellIsValid(struct ship* new_ship, int area[12][12])
+int checkAllCellIsValid(struct ship* new_ship, int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
     for (int i = 0; i < new_ship->deck_count; i++)
     {
@@ -245,7 +247,7 @@ int checkAllCellIsValid(struct ship* new_ship, int area[12][12])
     return 0;
 }
 
-struct ship generateShip(int area[12][12], int deck_count, int id)
+struct ship generateShip(int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], int deck_count, int id)
 {
     struct ship new_ship;
     int start_x, start_y;

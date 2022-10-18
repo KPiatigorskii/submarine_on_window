@@ -2,6 +2,8 @@
 
 enum game_entity {USER_ENTITY=0, PC_ENTITY=1};
 
+#define AREA_SIZE_WITH_BORDERS 12
+
 struct game_area
 {
     int ship_counter;
@@ -10,7 +12,7 @@ struct game_area
     int dead_ships_count;
     int start_pos_x;
     int start_pos_y;
-    int area[12][12];
+    int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS];
     int clicked_cells[100][2];
     enum game_entity game_entity;
     struct ship ships[SHIPS_COUNT];
@@ -33,9 +35,9 @@ struct game_area initGameArea(int start_pos_x,int start_pos_y, enum game_entity 
     game_area.start_pos_y = start_pos_y;
     game_area.game_entity = game_entity;
 
-    for (int i = 0; i < 12; i++) // fill area zero
+    for (int i = 0; i < AREA_SIZE_WITH_BORDERS; i++) // fill area zero
     {
-        for (int j = 0; j < 12; j++)
+        for (int j = 0; j < AREA_SIZE_WITH_BORDERS; j++)
         {
             game_area.area[i][j] = 0;
         }
@@ -76,7 +78,7 @@ int getShipId(struct game_area* game_area, int x, int y)
                 return i;
             }
         }
-    } // move to function
+    }
 
     return -1;
 }
