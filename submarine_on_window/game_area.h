@@ -1,6 +1,7 @@
 #include "ships.h"
 
 #define AREA_SIZE_WITH_BORDERS 12
+#define CELL_SIZE 35
 
 enum game_entity { USER_ENTITY = 0, PC_ENTITY = 1 };
 
@@ -87,8 +88,8 @@ void decreaseShipHealth(struct game_area* game_area, int ship_id)
 int* checkCellPosition(struct game_area* game_area, int x, int y)
 {
     int arr[2];
-    arr[0] = (int)(x - game_area->start_pos_x) / 35;
-    arr[1] = (int)(y - game_area->start_pos_y) / 35;
+    arr[0] = (int)(x - game_area->start_pos_x) / CELL_SIZE;
+    arr[1] = (int)(y - game_area->start_pos_y) / CELL_SIZE;
     return arr;
 }
 
