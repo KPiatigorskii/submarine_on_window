@@ -23,7 +23,7 @@ struct ship
 
 struct ship ships[10];
 
-void print_area_0(int area[12][12])
+void printArea0(int area[12][12])
 {
     for (int i = 1; i < 11; i++)
     {
@@ -36,7 +36,7 @@ void print_area_0(int area[12][12])
     printf("\n");
 }
 
-void print_ship(struct ship* new_ship)
+void printShip(struct ship* new_ship)
 {
     printf("====================\n");
     printf("cells:\n");
@@ -53,7 +53,7 @@ void print_ship(struct ship* new_ship)
     printf("\n====================\n");
 }
 
-int check_cell_borders(int area[12][12], int x, int y)
+int checkCellBorders(int area[12][12], int x, int y)
 {
     if (area[y][x] > 10 ||
         area[y][x] > 10 ||
@@ -63,7 +63,7 @@ int check_cell_borders(int area[12][12], int x, int y)
     return 1;
 }
 
-int check_borders(struct ship* new_ship)
+int checkBorders(struct ship* new_ship)
 {
     for (int count = 0; count < new_ship->deck_count; count++)
     {
@@ -73,7 +73,7 @@ int check_borders(struct ship* new_ship)
     return 1;
 }
 
-int cell_in_ship(struct ship* new_ship, int i, int j)
+int cellInShip(struct ship* new_ship, int i, int j)
 {
     for (int count = 0; count < new_ship->deck_count; count++)
     {
@@ -83,7 +83,7 @@ int cell_in_ship(struct ship* new_ship, int i, int j)
     return 0;
 }
 
-void fill_area(struct ship* new_ship, int area[12][12])
+void fillArea(struct ship* new_ship, int area[12][12])
 {
     for (int i = 0; i < new_ship->deck_count; i++)
     {
@@ -96,7 +96,7 @@ void fill_area(struct ship* new_ship, int area[12][12])
 
 }
 
-int set_around_coords_for_ship(struct ship* new_ship, int multipliers[2], int area[12][12])
+int setAroundCoordsForShip(struct ship* new_ship, int multipliers[2], int area[12][12])
 {
     int start_x = new_ship->coords[0][0];
     int start_y = new_ship->coords[0][1];
@@ -110,7 +110,7 @@ int set_around_coords_for_ship(struct ship* new_ship, int multipliers[2], int ar
         for (int j = start_x - add_x; j != stop_x + 2 * add_x; j = j + add_x) {
             if (area[i][j] != 2)
             {
-                if (!cell_in_ship(new_ship, i, j))
+                if (!cellInShip(new_ship, i, j))
                 {
                     new_ship->around_coords[around_coords_counter][0] = j;
                     new_ship->around_coords[around_coords_counter][1] = i;
@@ -128,7 +128,7 @@ int set_around_coords_for_ship(struct ship* new_ship, int multipliers[2], int ar
     return 1;
 }
 
-int set_all_coords_for_ship(int start_x, int start_y, int* multipliers, enum ship_directions direction, struct ship* new_ship, int area[12][12])
+int setAllCoordsForShip(int start_x, int start_y, int* multipliers, enum ship_directions direction, struct ship* new_ship, int area[12][12])
 {
     for (int i = 0; i < new_ship->deck_count; i++)
     {
@@ -166,7 +166,7 @@ int set_all_coords_for_ship(int start_x, int start_y, int* multipliers, enum shi
     return 1;
 }
 
-int* get_multipliers(enum ship_directions direction)
+int* getMultipliers(enum ship_directions direction)
 {
     int* dir_arr = malloc(2);
     switch (direction) {
@@ -195,13 +195,13 @@ int* get_multipliers(enum ship_directions direction)
     return dir_arr;
 }
 
-enum ship_directions get_random_direction()
+enum ship_directions getRandomDirection()
 {
     enum ship_directions direction = (rand() % 3);
     return direction;
 }
 
-int is_neighbors_free(int area[12][12], int start_x, int start_y) {
+int isNeighborsFree(int area[12][12], int start_x, int start_y) {
     for (int i = start_y - 1; i < start_y + 2; i++)
     {
         for (int j = start_x - 1; j < start_x + 2; j++)
@@ -216,7 +216,7 @@ int is_neighbors_free(int area[12][12], int start_x, int start_y) {
     return 1;
 }
 
-int* get_free_cell(int area[12][12])
+int* getFreeCell(int area[12][12])
 {
     int* arr = malloc(2);
     int busy_cell_flag = 0;
@@ -228,11 +228,11 @@ int* get_free_cell(int area[12][12])
     }
 }
 
-int check_all_cell_is_valid(struct ship* new_ship, int area[12][12])
+int checkAllCellIsValid(struct ship* new_ship, int area[12][12])
 {
     for (int i = 0; i < new_ship->deck_count; i++)
     {
-        if (is_neighbors_free(area, new_ship->coords[i][0],
+        if (isNeighborsFree(area, new_ship->coords[i][0],
             new_ship->coords[i][1]) &&
             new_ship->coords[i][1] < 11 &&
             new_ship->coords[i][0] < 11 &&
@@ -245,7 +245,7 @@ int check_all_cell_is_valid(struct ship* new_ship, int area[12][12])
     return 0;
 }
 
-struct ship generate_ship(int area[12][12], int deck_count, int id)
+struct ship generateShip(int area[12][12], int deck_count, int id)
 {
     struct ship new_ship;
     int start_x, start_y;
@@ -265,26 +265,26 @@ struct ship generate_ship(int area[12][12], int deck_count, int id)
         new_ship.id = id;
         new_ship.current_health = deck_count;
         new_ship.max_health = deck_count;
-        start_coordinates = get_free_cell(area); // find free cell
-        direction = get_random_direction();
-        multipliers = get_multipliers(direction); // first x, second y
+        start_coordinates = getFreeCell(area); // find free cell
+        direction = getRandomDirection();
+        multipliers = getMultipliers(direction); // first x, second y
         start_x = start_coordinates[0];
         start_y = start_coordinates[1];
         //if (!is_neighbors_free(area, start_x, start_y))
         //    continue;
         printf("direction is %d\n", direction);
-        if (!set_all_coords_for_ship(start_x, start_y, multipliers, direction, &new_ship, area))
+        if (!setAllCoordsForShip(start_x, start_y, multipliers, direction, &new_ship, area))
             continue;
-        if (!check_borders(&new_ship))
+        if (!checkBorders(&new_ship))
             continue;
-        if (!check_all_cell_is_valid(&new_ship, area))
+        if (!checkAllCellIsValid(&new_ship, area))
             continue;
-        if (!set_around_coords_for_ship(&new_ship, multipliers, area))
+        if (!setAroundCoordsForShip(&new_ship, multipliers, area))
             continue;
-        print_ship(&new_ship);
+        printShip(&new_ship);
         if (new_ship.is_valid)
         {
-            fill_area(&new_ship, area);
+            fillArea(&new_ship, area);
             //print_area_0(area);
             break;
         }

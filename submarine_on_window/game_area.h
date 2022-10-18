@@ -41,16 +41,16 @@ struct game_area initGameArea(int start_pos_x,int start_pos_y, enum game_entity 
         }
     }
 
-    game_area.ships[0] = generate_ship(game_area.area, 4, 0);
-    game_area.ships[1] = generate_ship(game_area.area, 3, 1);
-    game_area.ships[2] = generate_ship(game_area.area, 3, 2);
-    game_area.ships[3] = generate_ship(game_area.area, 2, 3);
-    game_area.ships[4] = generate_ship(game_area.area, 2, 4);
-    game_area.ships[5] = generate_ship(game_area.area, 2, 5);
-    game_area.ships[6] = generate_ship(game_area.area, 1, 6);
-    game_area.ships[7] = generate_ship(game_area.area, 1, 7);
-    game_area.ships[8] = generate_ship(game_area.area, 1, 8);
-    game_area.ships[9] = generate_ship(game_area.area, 1, 9);
+    game_area.ships[0] = generateShip(game_area.area, 4, 0);
+    game_area.ships[1] = generateShip(game_area.area, 3, 1);
+    game_area.ships[2] = generateShip(game_area.area, 3, 2);
+    game_area.ships[3] = generateShip(game_area.area, 2, 3);
+    game_area.ships[4] = generateShip(game_area.area, 2, 4);
+    game_area.ships[5] = generateShip(game_area.area, 2, 5);
+    game_area.ships[6] = generateShip(game_area.area, 1, 6);
+    game_area.ships[7] = generateShip(game_area.area, 1, 7);
+    game_area.ships[8] = generateShip(game_area.area, 1, 8);
+    game_area.ships[9] = generateShip(game_area.area, 1, 9);
     game_area.ship_counter = 10;
     return game_area;
 }
