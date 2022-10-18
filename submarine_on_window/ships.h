@@ -27,9 +27,9 @@ struct ship ships[10];
 
 void printArea0(int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
-    for (int i = 1; i < 11; i++)
+    for (int i = 1; i < AREA_SIZE_WITH_BORDERS - 1; i++)
     {
-        for (int j = 1; j < 11; j++)
+        for (int j = 1; j < AREA_SIZE_WITH_BORDERS - 1; j++)
         {
             printf("%d ", area[i][j]);
         }
@@ -236,8 +236,8 @@ int checkAllCellIsValid(struct ship* new_ship, int area[AREA_SIZE_WITH_BORDERS][
     {
         if (isNeighborsFree(area, new_ship->coords[i][0],
             new_ship->coords[i][1]) &&
-            new_ship->coords[i][1] < 11 &&
-            new_ship->coords[i][0] < 11 &&
+            new_ship->coords[i][1] < AREA_SIZE_WITH_BORDERS - 1 &&
+            new_ship->coords[i][0] < AREA_SIZE_WITH_BORDERS - 1 &&
             new_ship->coords[i][1] > 0 &&
             new_ship->coords[i][0] > 0)
         {
