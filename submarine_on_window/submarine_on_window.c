@@ -42,7 +42,8 @@ HWND hLogo;
 
 HWND hUserArea, hPCArea, hWndExample, hWndTurn;
 
-HBITMAP hLogoImage, hCellUserImage[12][12], hCellPCImage[12][12], hGenerateImage;
+HBITMAP hLogoImage, hCellUserImage[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS];
+HBITMAP hCellPCImage[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], hGenerateImage;
 HBITMAP hBitmap;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
