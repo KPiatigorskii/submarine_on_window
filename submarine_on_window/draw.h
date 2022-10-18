@@ -24,9 +24,9 @@ void openArea(struct game_area* game_area, HWND hWnd, HWND* hCell[AREA_SIZE_WITH
     HBITMAP hCellImageChange;
     LPCWSTR imageName;
 
-    for (int i = 1; i < 11; i++)
+    for (int i = 1; i < AREA_SIZE_WITH_BORDERS - 1; i++)
     {
-        for (int j = 1; j < 11; j++)
+        for (int j = 1; j < AREA_SIZE_WITH_BORDERS - 1; j++)
         {
             hCell[i][j] = CreateWindowW(
                 L"static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP,
@@ -46,9 +46,9 @@ void openArea(struct game_area* game_area, HWND hWnd, HWND* hCell[AREA_SIZE_WITH
 void loadDefaultImages(struct game_area* game_area, HWND hWnd, HWND* hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
     HBITMAP hCellImage = (HBITMAP)LoadImageW(NULL, L"square32red.bmp", IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
-    for (int i = 1; i < 11; i++)
+    for (int i = 1; i < AREA_SIZE_WITH_BORDERS - 1; i++)
     {
-        for (int j = 1; j < 11; j++)
+        for (int j = 1; j < AREA_SIZE_WITH_BORDERS - 1; j++)
         {
             hCell[i][j] = CreateWindowW(L"static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, game_area->start_pos_x + CELL_SIZE * j, game_area->start_pos_y + CELL_SIZE * i, 120, 120, hWnd, NULL, NULL, NULL);
             SendMessageW(hCell[i][j], STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hCellImage);
@@ -93,7 +93,7 @@ void changeAroundImage(struct game_area* game_area, int ship_id, HWND hWnd, HWND
         int dead_y = game_area->ships[ship_id].around_coords[i][1];
         hCellImage = (HBITMAP)LoadImageW(NULL, (LPCWSTR)L"square32dot.bmp", IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
 
-        if (dead_x < 11 && dead_y < 11 && dead_x > 0 && dead_y > 0)
+        if (dead_x < AREA_SIZE_WITH_BORDERS - 1 && dead_y < AREA_SIZE_WITH_BORDERS - 1 && dead_x > 0 && dead_y > 0)
         {
             if (cellIsNotClicked(game_area, dead_x, dead_y))
             {
@@ -170,9 +170,9 @@ int hitCell(struct game_area* game_area, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA
 }
 
 void clearAllWindow() {
-    for (int i = 1; i < 11; i++)
+    for (int i = 1; i < AREA_SIZE_WITH_BORDERS - 1; i++)
     {
-        for (int j = 1; j < 11; j++) {
+        for (int j = 1; j < AREA_SIZE_WITH_BORDERS - 1; j++) {
             DestroyWindow(hPCCell[i][j]);
             DestroyWindow(hUserCell[i][j]);
         }

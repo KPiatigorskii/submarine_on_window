@@ -86,7 +86,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             cell_x = position_ptr[0];
             cell_y = position_ptr[1];
 
-            if (cell_x < 11 && cell_x >= 1 && cell_y >= 1 && cell_y < 11) {
+            if (cell_x < AREA_SIZE_WITH_BORDERS - 1 && cell_x >= 1 && cell_y >= 1 && cell_y < AREA_SIZE_WITH_BORDERS - 1) {
                 if (cellIsNotClicked(&game_pc_area, cell_x, cell_y))
                 {
                     hitCell(&game_pc_area, hPCCell, cell_x, cell_y, hWnd);
