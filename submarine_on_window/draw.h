@@ -94,9 +94,9 @@ void changeAroundImage(struct game_area* game_area, int ship_id, HWND hWnd, HWND
 
         if (dead_x < 11 && dead_y < 11 && dead_x > 0 && dead_y > 0)
         {
-            if (cell_is_not_clicked(game_area, dead_x, dead_y))
+            if (cellIsNotClicked(game_area, dead_x, dead_y))
             {
-                increment_clicked_cells(game_area, dead_x, dead_y);
+                incrementClickedCells(game_area, dead_x, dead_y);
                 DestroyWindow(hCell[dead_y][dead_x]);
                 hCell[dead_y][dead_x] = CreateWindowW(L"static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, game_area->start_pos_x + 35 * dead_x, game_area->start_pos_y + 35 * dead_y, NULL, NULL, hWnd, NULL, NULL, NULL);
                 SendMessageW(hCell[dead_y][dead_x], STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hCellImage);
@@ -112,7 +112,7 @@ int hitCell(struct game_area* game_area, HWND hCell[12][12], int x, int y, HWND 
     LPCWSTR imageName;
 
     DestroyWindow(hCell[y][x]); // delete clicked cell
-    increment_clicked_cells(game_area, x, y);
+    incrementClickedCells(game_area, x, y);
     game_area->move_counter++;
     if (game_area->area[y][x] < 2)
         imageName = L"square32dot.bmp";
@@ -126,10 +126,10 @@ int hitCell(struct game_area* game_area, HWND hCell[12][12], int x, int y, HWND 
 
     if (game_area->area[y][x] == 2)
     {
-        int ship_id = get_ship_id(game_area, x, y);
-        decrease_ship_health(game_area, ship_id);
+        int ship_id = getShipId(game_area, x, y);
+        decreaseShipHealth(game_area, ship_id);
 
-        if (check_dead_ship(game_area, ship_id))
+        if (checkDeadShip(game_area, ship_id))
         {
             game_area->dead_ships_count++;
             changeAroundImage(game_area, ship_id, hWnd, hCell, hCellImage);
