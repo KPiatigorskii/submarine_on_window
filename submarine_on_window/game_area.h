@@ -1,8 +1,8 @@
 #include "ships.h"
 
-enum game_entity {USER_ENTITY=0, PC_ENTITY=1};
-
 #define AREA_SIZE_WITH_BORDERS 12
+
+enum game_entity { USER_ENTITY = 0, PC_ENTITY = 1 };
 
 struct game_area
 {
@@ -17,6 +17,8 @@ struct game_area
     enum game_entity game_entity;
     struct ship ships[SHIPS_COUNT];
 } game_area;
+
+int ship_cell_array[10] = { 4,3,3,2,2,2,1,1,1,1 };
 
 void incrementClickedCells(struct game_area* game_area, int x, int y)
 {
@@ -42,17 +44,11 @@ struct game_area initGameArea(int start_pos_x,int start_pos_y, enum game_entity 
             game_area.area[i][j] = 0;
         }
     }
+    for (int i = 0; i < SHIPS_COUNT; i++)
+    {
+        game_area.ships[i] = generateShip(game_area.area, ship_cell_array[i], i);
+    }
 
-    game_area.ships[0] = generateShip(game_area.area, 4, 0);
-    game_area.ships[1] = generateShip(game_area.area, 3, 1);
-    game_area.ships[2] = generateShip(game_area.area, 3, 2);
-    game_area.ships[3] = generateShip(game_area.area, 2, 3);
-    game_area.ships[4] = generateShip(game_area.area, 2, 4);
-    game_area.ships[5] = generateShip(game_area.area, 2, 5);
-    game_area.ships[6] = generateShip(game_area.area, 1, 6);
-    game_area.ships[7] = generateShip(game_area.area, 1, 7);
-    game_area.ships[8] = generateShip(game_area.area, 1, 8);
-    game_area.ships[9] = generateShip(game_area.area, 1, 9);
     game_area.ship_counter = 10;
     return game_area;
 }
