@@ -16,9 +16,9 @@ HINSTANCE g_hInst;
 HWND hUserCell[12][12] = { NULL };
 HWND hPCCell[12][12] = { NULL };
 
-void clear_all_window(hWnd);
+void clearAllWindow(hWnd);
 
-void open_area(struct game_area* game_area, HWND hWnd, HWND* hCell[12][12])
+void openArea(struct game_area* game_area, HWND hWnd, HWND* hCell[12][12])
 {
     HBITMAP hCellImageChange;
     LPCWSTR imageName;
@@ -55,7 +55,7 @@ void loadDefaultImages(struct game_area* game_area, HWND hWnd, HWND* hCell[12][1
     }
 }
 
-void change_other_image(struct game_area* game_area, HWND hCell[12][12], HWND hWnd)
+void changeOtherImage(struct game_area* game_area, HWND hCell[12][12], HWND hWnd)
 {
     HBITMAP hCellImageChange = (HBITMAP)LoadImageW(NULL, (LPCWSTR)L"square32dot.bmp", IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
     int start_pos_x;
@@ -82,7 +82,7 @@ void change_other_image(struct game_area* game_area, HWND hCell[12][12], HWND hW
     }
 }
 
-void change_around_image(struct game_area* game_area, int ship_id, HWND hWnd, HWND hCell[12][12])
+void changeAroundImage(struct game_area* game_area, int ship_id, HWND hWnd, HWND hCell[12][12])
 {
     HBITMAP hCellImage;
 
@@ -132,7 +132,7 @@ int hitCell(struct game_area* game_area, HWND hCell[12][12], int x, int y, HWND 
         if (check_dead_ship(game_area, ship_id))
         {
             game_area->dead_ships_count++;
-            change_around_image(game_area, ship_id, hWnd, hCell, hCellImage);
+            changeAroundImage(game_area, ship_id, hWnd, hCell, hCellImage);
         }
         if (game_area->dead_ships_count == 10)
         {
@@ -140,17 +140,17 @@ int hitCell(struct game_area* game_area, HWND hCell[12][12], int x, int y, HWND 
             {
                 //change_other_image(game_area, hUserCell, hWnd);
                 MessageBox(NULL, TEXT("YOU'RE WINNER!"),
-                    TEXT("win window"), MB_ICONHAND);
+                    TEXT("win window"), MB_RETRYCANCEL);
                 game_is_on = 0;
             }
             if (game_area->game_entity == USER_ENTITY)
             {
                 //change_other_image(game_area, hPCCell, hWnd);
                 MessageBox(NULL, TEXT("YOU'RE NOT WINNER! YOU SUCK!"),
-                    TEXT("win window"), MB_ICONHAND);
+                    TEXT("lose window"), MB_RETRYCANCEL);
                 game_is_on = 0;
             }
-            clear_all_window();
+            clearAllWindow();
         }
     }
     else {
@@ -168,7 +168,7 @@ int hitCell(struct game_area* game_area, HWND hCell[12][12], int x, int y, HWND 
     return game_area->area[y][x];
 }
 
-void clear_all_window() {
+void clearAllWindow() {
     for (int i = 1; i < 11; i++)
     {
         for (int j = 1; j < 11; j++) {
@@ -180,7 +180,7 @@ void clear_all_window() {
 
 }
 
-void clear_area(HWND hCell[12][12])
+void clearArea(HWND hCell[12][12])
 {
     for (int y = 1; y < 11; y++)
     {

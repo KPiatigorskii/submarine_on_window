@@ -109,19 +109,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             game_pc_area = init_game_area(START_X_PC_POSITION, START_Y_PC_POSITION, PC_ENTITY);
             game_user_area = init_game_area(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
             
-            clear_area(hPCCell);
+            clearArea(hPCCell);
             loadDefaultImages(&game_pc_area, hWnd, &hPCCell);
 
-            clear_area(hUserCell);
+            clearArea(hUserCell);
             loadDefaultImages(&game_user_area, hWnd, &hUserCell);
             break;
         case GENERATE_SHIPS:
             if (!game_is_on)
             {
-                clear_area(hUserCell);
-                open_area(&game_user_area, hWnd, &hUserCell);
-                //clear_area(hPCCell); // uncomment for debug and see all PC ships
-                //open_area(&game_pc_area, hWnd, &hPCCell);
+                clearArea(hUserCell);
+                game_user_area = init_game_area(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
+                openArea(&game_user_area, hWnd, &hUserCell);
+                clearArea(hPCCell); // uncomment for debug and see all PC ships
+                openArea(&game_pc_area, hWnd, &hPCCell); // uncomment for debug and see all PC ships
                 ships_is_generated = 1;
             }
             break;
