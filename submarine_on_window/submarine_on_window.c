@@ -67,7 +67,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             while (1) {
                 cell_x = rand() % 10 + 1;
                 cell_y = rand() % 10 + 1;
-                if (cell_is_not_clicked(&game_user_area, cell_x, cell_y)) {
+                if (cellIsNotClicked(&game_user_area, cell_x, cell_y)) {
                     break;
                 }
             }
@@ -86,7 +86,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             cell_y = position_ptr[1];
 
             if (cell_x < 11 && cell_x >= 1 && cell_y >= 1 && cell_y < 11) {
-                if (cell_is_not_clicked(&game_pc_area, cell_x, cell_y))
+                if (cellIsNotClicked(&game_pc_area, cell_x, cell_y))
                 {
                     hitCell(&game_pc_area, hPCCell, cell_x, cell_y, hWnd);
                 }
@@ -106,8 +106,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             pc_turn = 0;
             AddGameControls(hWnd);
 
-            game_pc_area = init_game_area(START_X_PC_POSITION, START_Y_PC_POSITION, PC_ENTITY);
-            game_user_area = init_game_area(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
+            game_pc_area = initGameArea(START_X_PC_POSITION, START_Y_PC_POSITION, PC_ENTITY);
+            game_user_area = initGameArea(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
             
             clearArea(hPCCell);
             loadDefaultImages(&game_pc_area, hWnd, &hPCCell);
@@ -119,7 +119,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             if (!game_is_on)
             {
                 clearArea(hUserCell);
-                game_user_area = init_game_area(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
+                game_user_area = initGameArea(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
                 openArea(&game_user_area, hWnd, &hUserCell);
                 clearArea(hPCCell); // uncomment for debug and see all PC ships
                 openArea(&game_pc_area, hWnd, &hPCCell); // uncomment for debug and see all PC ships

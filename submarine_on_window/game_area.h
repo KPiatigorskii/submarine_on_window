@@ -16,14 +16,14 @@ struct game_area
     struct ship ships[SHIPS_COUNT];
 } game_area;
 
-void increment_clicked_cells(struct game_area* game_area, int x, int y)
+void incrementClickedCells(struct game_area* game_area, int x, int y)
 {
     game_area->clicked_cells[game_area->checked_cells_count][0] = y;
     game_area->clicked_cells[game_area->checked_cells_count][1] = x;
     game_area->checked_cells_count++;
 }
 
-struct game_area init_game_area(int start_pos_x,int start_pos_y, enum game_entity game_entity)
+struct game_area initGameArea(int start_pos_x,int start_pos_y, enum game_entity game_entity)
 {
     game_area.ship_counter = 0;
     game_area.move_counter = 0;
@@ -55,7 +55,7 @@ struct game_area init_game_area(int start_pos_x,int start_pos_y, enum game_entit
     return game_area;
 }
 
-int cell_is_not_clicked(struct game_area* game_area, int x, int y)
+int cellIsNotClicked(struct game_area* game_area, int x, int y)
 {
     for (int i = 0; i < game_area->checked_cells_count; i++)
     {
@@ -65,7 +65,7 @@ int cell_is_not_clicked(struct game_area* game_area, int x, int y)
     return 1;
 }
 
-int get_ship_id(struct game_area* game_area, int x, int y)
+int getShipId(struct game_area* game_area, int x, int y)
 {
     for (int i = 0; i < game_area->ship_counter; i++)
     {
@@ -81,7 +81,7 @@ int get_ship_id(struct game_area* game_area, int x, int y)
     return -1;
 }
 
-void decrease_ship_health(struct game_area* game_area, int ship_id)
+void decreaseShipHealth(struct game_area* game_area, int ship_id)
 {
     game_area->ships[ship_id].current_health = game_area->ships[ship_id].current_health - 1;
 }
@@ -94,7 +94,7 @@ int* checkCellPosition(struct game_area* game_area, int x, int y)
     return arr;
 }
 
-int check_dead_ship(struct game_area* game_area, int  ship_id)
+int checkDeadShip(struct game_area* game_area, int  ship_id)
 {
     if (game_area->ships[ship_id].current_health == 0)
         return 1;
