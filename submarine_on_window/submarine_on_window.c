@@ -51,11 +51,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     int mouse_x;
     int mouse_y;
-    static TCHAR* intro_sound = TEXT("intro_sound.wav");
-    static TCHAR* start_game_sound = TEXT("start_game.wav");
-    static TCHAR* win_game_sound = TEXT("win_game.wav");
-    static TCHAR* game_over_sound = TEXT("game_over.wav");
-
 
     switch (msg)
     {
