@@ -100,3 +100,4 @@ int checkDeadShip(struct game_area* game_area, int  ship_id)
     else
         return 0;
 }
+

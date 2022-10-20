@@ -5,6 +5,7 @@
 extern int pc_turn;
 extern int user_turn;
 extern int game_is_on;
+int msgBox;
 
 #define START_X_USER_POSITION 150
 #define START_Y_USER_POSITION 30
@@ -138,21 +139,33 @@ int hitCell(struct game_area* game_area, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA
         }
         if (game_area->dead_ships_count == 10)
         {
+            game_is_on = 2;
             if (game_area->game_entity == PC_ENTITY)
             {
                 //change_other_image(game_area, hUserCell, hWnd);
-                MessageBox(NULL, TEXT("YOU'RE WINNER!"),
-                    TEXT("win window"), MB_RETRYCANCEL);
+                msgBox = MessageBox(hWnd, TEXT("YOU'RE WINNER!  Would you retry?"),
+                    TEXT("win window"), MB_OKCANCEL);
+
                 game_is_on = 0;
             }
             if (game_area->game_entity == USER_ENTITY)
             {
                 //change_other_image(game_area, hPCCell, hWnd);
-                MessageBox(NULL, TEXT("YOU'RE NOT WINNER! YOU SUCK!"),
-                    TEXT("lose window"), MB_RETRYCANCEL);
+                msgBox = MessageBox(NULL, TEXT("YOU'RE NOT WINNER! Would you retry?"),
+                    TEXT("lose window"), MB_OKCANCEL);
                 game_is_on = 0;
             }
-            clearAllWindow();
+
+
+            switch (msgBox)
+            {
+            case IDOK:
+                SendMessageW(hWnd, WM_COMMAND, NEW_GAME_WITH_PC, 0);
+                break;
+            case IDCANCEL:
+                SendMessageW(hWnd, WM_DESTROY, 0, 0);
+                break;
+            }
         }
     }
     else {
@@ -192,3 +205,4 @@ void clearArea(HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
         }
     }
 }
+

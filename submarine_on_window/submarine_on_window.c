@@ -70,7 +70,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             }
             hitCell(&game_user_area, hUserCell, cell_x, cell_y, hWnd);
         }
-        break;
+
     case WM_LBUTTONUP:
         if (game_is_on == 1) {
             mouse_x = GET_X_LPARAM(lParam);
