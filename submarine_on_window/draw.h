@@ -1,5 +1,6 @@
 
 #include "controls.h"
+#include "constants.h"
 
 extern int pc_turn;
 extern int user_turn;
@@ -34,9 +35,9 @@ void openArea(struct game_area* game_area, HWND hWnd, HWND* hCell[AREA_SIZE_WITH
                 game_area->start_pos_y + CELL_SIZE * i,
                 NULL, NULL, hWnd, NULL, NULL, NULL);
             if (game_area->area[i][j] == 2)
-                imageName = L"square32green.bmp";
+                imageName = OPEN_SHIP_CELL;
             else
-                imageName = L"square32white.bmp";
+                imageName = OPEN_EMPTY_CELL;
             hCellImageChange = (HBITMAP)LoadImageW(NULL, imageName, IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
             SendMessageW(hCell[i][j], STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hCellImageChange);
         }
@@ -45,7 +46,7 @@ void openArea(struct game_area* game_area, HWND hWnd, HWND* hCell[AREA_SIZE_WITH
 
 void loadDefaultImages(struct game_area* game_area, HWND hWnd, HWND* hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
-    HBITMAP hCellImage = (HBITMAP)LoadImageW(NULL, L"square32red.bmp", IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
+    HBITMAP hCellImage = (HBITMAP)LoadImageW(NULL, CLOSE_CELL, IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
     for (int i = 1; i < AREA_SIZE_WITH_BORDERS - 1; i++)
     {
         for (int j = 1; j < AREA_SIZE_WITH_BORDERS - 1; j++)
@@ -58,7 +59,7 @@ void loadDefaultImages(struct game_area* game_area, HWND hWnd, HWND* hCell[AREA_
 
 void changeOtherImage(struct game_area* game_area, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], HWND hWnd)
 {
-    HBITMAP hCellImageChange = (HBITMAP)LoadImageW(NULL, (LPCWSTR)L"square32dot.bmp", IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
+    HBITMAP hCellImageChange = (HBITMAP)LoadImageW(NULL, MISS_CELL, IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
     int start_pos_x;
     int start_pos_y;
     start_pos_x = game_area->start_pos_x;
@@ -91,7 +92,7 @@ void changeAroundImage(struct game_area* game_area, int ship_id, HWND hWnd, HWND
     {
         int dead_x = game_area->ships[ship_id].around_coords[i][0];
         int dead_y = game_area->ships[ship_id].around_coords[i][1];
-        hCellImage = (HBITMAP)LoadImageW(NULL, (LPCWSTR)L"square32dot.bmp", IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
+        hCellImage = (HBITMAP)LoadImageW(NULL, MISS_CELL, IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
 
         if (dead_x < AREA_SIZE_WITH_BORDERS - 1 && dead_y < AREA_SIZE_WITH_BORDERS - 1 && dead_x > 0 && dead_y > 0)
         {
@@ -116,9 +117,9 @@ int hitCell(struct game_area* game_area, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA
     incrementClickedCells(game_area, x, y);
     game_area->move_counter++;
     if (game_area->area[y][x] < 2)
-        imageName = L"square32dot.bmp";
+        imageName = MISS_CELL;
     else
-        imageName = L"square32cross.bmp";
+        imageName = HIT_CELL;
         
     hCellImage = (HBITMAP)LoadImageW(NULL, imageName, IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
 
