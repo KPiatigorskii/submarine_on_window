@@ -10,6 +10,7 @@
 #include "draw.h"
 #include <mmsystem.h>
 
+
 #define ID_TIMER 1
 #define IDB_BITMAP1 101
 
@@ -162,7 +163,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
     WNDCLASSW wc = { 0 };
 
-    wc.hbrBackground = CreatePatternBrush((HBITMAP)LoadImageW(NULL, (LPCWSTR)L"bg.bmp", IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE));
+    wc.hbrBackground = CreatePatternBrush((HBITMAP)LoadImageW(NULL, BACKGROUND_PATH, IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE));
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.hInstance = hInstance;
     wc.lpszClassName = L"myWindowClass";

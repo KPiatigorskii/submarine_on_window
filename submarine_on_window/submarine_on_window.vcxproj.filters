@@ -42,6 +42,9 @@
     <ClInclude Include="controls.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="constants.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="submarine_on_window.c">
