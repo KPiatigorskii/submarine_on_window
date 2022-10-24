@@ -5,10 +5,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <mmsystem.h>
+
 #include "game_area.h"
 #include "game_flow.h"
 #include "draw.h"
-#include <mmsystem.h>
+#include "pc_engine.h"
 
 
 #define ID_TIMER 1
@@ -59,16 +61,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         {
             int cell_x;
             int cell_y;
+            int shot_result;
             SetWindowText(hStaticLabel, L"PC turn! ");
             Sleep(1000);
             while (1) {
-                cell_x = rand() % 10 + 1;
-                cell_y = rand() % 10 + 1;
+
+                int *ptr = get_next_cell();
+                cell_x = ptr[0];
+                cell_y = ptr[1];
+
                 if (cellIsNotClicked(&game_user_area, cell_x, cell_y)) {
                     break;
                 }
             }
-            hitCell(&game_user_area, hUserCell, cell_x, cell_y, hWnd);
+            shot_result = shootCell(&game_user_area, hUserCell, cell_x, cell_y, hWnd);
+            refresh_engine(shot_result, cell_x, cell_y, game_area.dead_ships_count);
         }
 
     case WM_LBUTTONUP:
@@ -85,7 +92,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             if (cell_x < AREA_SIZE_WITH_BORDERS - 1 && cell_x >= 1 && cell_y >= 1 && cell_y < AREA_SIZE_WITH_BORDERS - 1) {
                 if (cellIsNotClicked(&game_pc_area, cell_x, cell_y))
                 {
-                    hitCell(&game_pc_area, hPCCell, cell_x, cell_y, hWnd);
+                    shootCell(&game_pc_area, hPCCell, cell_x, cell_y, hWnd);
                 }
             }
         }
@@ -102,7 +109,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             user_turn = 0;
             pc_turn = 0;
             AddGameControls(hWnd);
-
+            init_pc_logic();
             game_pc_area = initGameArea(START_X_PC_POSITION, START_Y_PC_POSITION, PC_ENTITY);
             game_user_area = initGameArea(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
             

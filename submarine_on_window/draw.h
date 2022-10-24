@@ -109,7 +109,7 @@ void changeAroundImage(struct game_area* game_area, int ship_id, HWND hWnd, HWND
 }
 
 
-int hitCell(struct game_area* game_area, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], int x, int y, HWND hWnd)
+int shootCell(struct game_area* game_area, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], int x, int y, HWND hWnd)
 {
     HBITMAP hCellImage;
     LPCWSTR imageName;
