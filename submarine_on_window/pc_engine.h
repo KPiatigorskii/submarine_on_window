@@ -18,18 +18,18 @@
 // 2) check direction shooting (when we hit first time we must check - ship position is horizontal or vertical) 
 // 3) shoot other cells of ship
 
+
+#define HIT_WEIGHT 6
+#define MISS_WEIGHT 0
+#define EMPTY_WEIGHT -1
+#define COMPLETE_SHIP_WEIGHT -10
 struct pc_engine {
     int weight_area[12][12];
-    int prev_cell[2]; // y,x
     int next_cell[2]; // y,x
-    int next_cell_buffer[10][2];
     int hit_count;
     int shot_counter;
-    int state; // 1 - search, 2 - check_dir, shoot other 
     int dead_ships;
-    enum shoot_directions shoot_direction;
-    int current_x_multiplier;
-    int current_y_multiplier;
+    int ship_plane;
     int ship_cells[4][2];
 };
 
@@ -37,13 +37,12 @@ void set_diagonal_weight(struct pc_engine* pc_engine_area,int x, int y);
 void set_hor_ver_weight(struct pc_engine* pc_engine_area, int x, int y);
 int* get_biggest_weight(struct pc_engine* pc_engine_area);
 void clear_ship_cells(struct pc_engine* pc_engine_area);
-
+void set_weights_with_plane(struct pc_engine* pc_engine_area);
+void find_plane(struct pc_engine* pc_engine_area);
 
 struct pc_engine init_pc_logic()
 {
     struct pc_engine pc_engine_area;
-    pc_engine_area.prev_cell[0] = -1;
-    pc_engine_area.prev_cell[1] = -1;
     pc_engine_area.next_cell[0] = -1;
     pc_engine_area.next_cell[1] = -1;
     pc_engine_area.shot_counter = 0;
@@ -51,11 +50,11 @@ struct pc_engine init_pc_logic()
     pc_engine_area.dead_ships = 0;
 
     
-    for (int i = 0; i < 12; i++) // fill area zero
+    for (int i = 0; i < 12; i++) // fill negative nums
     {
         for (int j = 0; j < 12; j++)
         {
-            pc_engine_area.weight_area[i][j] = 0;
+            pc_engine_area.weight_area[i][j] = EMPTY_WEIGHT;
         }
     }
     clear_ship_cells(&pc_engine_area);
@@ -73,34 +72,35 @@ enum shoot_directions getRandomDirectionShoot()
 
 void set_around_weight(struct pc_engine* pc_engine_area)
 {
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < pc_engine_area->hit_count; i++)
     {
-        if (pc_engine_area->ship_cells[i][0] != -1 && pc_engine_area->ship_cells[i][1] != -1)
+        int y = pc_engine_area->ship_cells[i][0];
+        int x = pc_engine_area->ship_cells[i][1];
+        for (int i = y - 1; i < y + 2; i++)
         {
-            int y = pc_engine_area->ship_cells[i][0];
-            int x = pc_engine_area->ship_cells[i][1];
-            for (int i = y - 1; i < y + 2; i++)
+            for (int j = x - 1; j < x + 2; j++)
             {
-                for (int j = x - 1; j < x + 2; j++)
-                {
-                    pc_engine_area->weight_area[i][j] = 3;
-                }
+                pc_engine_area->weight_area[i][j] = COMPLETE_SHIP_WEIGHT;
             }
-            
         }
     }
 }
 
-void refresh_engine(struct pc_engine* pc_engine_area, int hit_result, int x, int y, int deads)
+void set_next_cell(struct pc_engine* pc_engine_area, int hit_result, int x, int y, int deads)
 {
+    int* position_ptr;
     pc_engine_area->shot_counter++;
     switch (hit_result)
     {
-        case 2:
-            pc_engine_area->weight_area[y][x] = 3;
-            pc_engine_area->hit_count++;
+        case 0:
+        case 1:
+            pc_engine_area->weight_area[y][x] = MISS_WEIGHT;
+            break;
+        case 2: // we hit
+            pc_engine_area->weight_area[y][x] = HIT_WEIGHT;
             pc_engine_area->ship_cells[pc_engine_area->hit_count][0] = y;
             pc_engine_area->ship_cells[pc_engine_area->hit_count][1] = x;
+            pc_engine_area->hit_count++;
 
             if (deads > pc_engine_area->dead_ships)
             {
@@ -108,68 +108,73 @@ void refresh_engine(struct pc_engine* pc_engine_area, int hit_result, int x, int
                 set_around_weight(pc_engine_area);
                 clear_ship_cells(pc_engine_area);
                 pc_engine_area->hit_count = 0;
-                int* position_ptr;
-                position_ptr = get_biggest_weight(pc_engine_area);
-                pc_engine_area->next_cell[0] = position_ptr[0];
-                pc_engine_area->next_cell[1] = position_ptr[1];
                 break;
             }
 
-            set_diagonal_weight(pc_engine_area,x, y);
-            set_hor_ver_weight(pc_engine_area, x, y);
-
-            if (pc_engine_area->hit_count > 1) // not first hit
+            switch (pc_engine_area->hit_count)
             {
-                pc_engine_area->next_cell[y] = pc_engine_area->next_cell[y] + pc_engine_area->current_y_multiplier;
-                pc_engine_area->next_cell[x] = pc_engine_area->next_cell[x] + pc_engine_area->current_x_multiplier;
-            }
-            else
-            { // get random direction for shooting
-                int next_x;
-                int next_y;
-                while (1) 
-                {
-                    pc_engine_area->shoot_direction = getRandomDirectionShoot();
-                    int* multipliers = getMultipliers(pc_engine_area->shoot_direction);
-                    pc_engine_area->current_y_multiplier = multipliers[0];
-                    pc_engine_area->current_x_multiplier = multipliers[1];
-                    next_y = pc_engine_area->next_cell[0] + pc_engine_area->current_y_multiplier;
-                    next_x = pc_engine_area->next_cell[1] + pc_engine_area->current_x_multiplier;
-                    if (next_x > 0 && next_x < 11 && next_y > 0 && next_y < 11)
-                    {
-                        pc_engine_area->next_cell[0] = next_y;
-                        pc_engine_area->next_cell[1] = next_x;
-                        break;
-                    }
-
-                }
-            }
-            break;
-        case 1:
-        case 0:
-            pc_engine_area->weight_area[y][x] = -1;
-            if (pc_engine_area->hit_count > 1) // not first 
-            { // turn shooting in a different way
-                pc_engine_area->next_cell[y] = pc_engine_area->ship_cells[0][0] + pc_engine_area->current_y_multiplier * -1;
-                pc_engine_area->next_cell[x] = pc_engine_area->ship_cells[0][1] + pc_engine_area->current_x_multiplier * -1;
-            }
-            else
-            {
-                int* position_ptr;
-                position_ptr = get_biggest_weight(pc_engine_area);
-                pc_engine_area->next_cell[0] = position_ptr[0];
-                pc_engine_area->next_cell[1] = position_ptr[1];
+                case 1: // first hit
+                    set_diagonal_weight(pc_engine_area, x, y);
+                    set_hor_ver_weight(pc_engine_area, x, y);
+                    break;
+                case 2: // 2nd hit
+                    find_plane(pc_engine_area);
+                case 3: // 3d hit
+                    set_weights_with_plane(pc_engine_area);
+                    break;
+                default:
+                    break;
             }
             break;
         default:
             break;
     }
-    printf("asd");
+
+    position_ptr = get_biggest_weight(pc_engine_area);
+    pc_engine_area->next_cell[0] = position_ptr[0];
+    pc_engine_area->next_cell[1] = position_ptr[1];
+}
+
+void set_weights_with_plane(struct pc_engine* pc_engine_area)
+{
+    for (int i = 0; i < pc_engine_area->hit_count; i++)
+    {
+        int x = pc_engine_area->ship_cells[i][1];
+        int y = pc_engine_area->ship_cells[i][0];
+        if (pc_engine_area->ship_plane == 0) // hor
+        {
+            pc_engine_area->weight_area[y - 1][x] = MISS_WEIGHT;
+            pc_engine_area->weight_area[y + 1][x] = MISS_WEIGHT;
+            if (pc_engine_area->weight_area[y][x + 1] != 5)
+                pc_engine_area->weight_area[y][x + 1] = 4;
+            if (pc_engine_area->weight_area[y][x - 1] != 5)
+                pc_engine_area->weight_area[y][x - 1] = 4;
+        }
+        else 
+        {
+            pc_engine_area->weight_area[y][x - 1] = MISS_WEIGHT;
+            pc_engine_area->weight_area[y][x + 1] = MISS_WEIGHT;
+            if (pc_engine_area->weight_area[y + 1][x] != 5)
+                pc_engine_area->weight_area[y + 1][x] = 4;
+            if (pc_engine_area->weight_area[y - 1][x] != 5)
+                pc_engine_area->weight_area[y - 1][x] = 4;
+        }
+    }
+}
+
+void find_plane(struct pc_engine* pc_engine_area)
+{
+    int x_dif = pc_engine_area->ship_cells[0][1] - pc_engine_area->ship_cells[1][1];
+    int y_dif = pc_engine_area->ship_cells[0][0] - pc_engine_area->ship_cells[1][0];
+    if (x_dif == 0) 
+        pc_engine_area->ship_plane = 1; // vertical
+    else
+        pc_engine_area->ship_plane = 0; // horisontal
 }
 
 int* get_next_cell(struct pc_engine* pc_engine_area)
 {
-    if (pc_engine_area->shot_counter == 0) {
+    if (pc_engine_area->shot_counter == 0 || pc_engine_area->hit_count == 0) {
         int* coords = malloc(2);
 	    coords[0] = rand() % 10 + 1;
 	    coords[1] = rand() % 10 + 1;
@@ -181,26 +186,26 @@ int* get_next_cell(struct pc_engine* pc_engine_area)
 
 void set_diagonal_weight(struct pc_engine* pc_engine_area, int x, int y)
 {
-    if(pc_engine_area->weight_area[y - 1][x - 1] != 3)
-        pc_engine_area->weight_area[y - 1][x - 1] = -1;
-    if (pc_engine_area->weight_area[y + 1][x + 1] != 3)
-        pc_engine_area->weight_area[y + 1][x + 1] = -1;
-    if (pc_engine_area->weight_area[y + 1][x - 1] != 3)
-        pc_engine_area->weight_area[y + 1][x - 1] = -1;
-    if (pc_engine_area->weight_area[y - 1][x + 1] != 3)
-        pc_engine_area->weight_area[y - 1][x + 1] = -1;
+    if(pc_engine_area->weight_area[y - 1][x - 1] != HIT_WEIGHT && pc_engine_area->weight_area[y - 1][x - 1] != MISS_WEIGHT && pc_engine_area->weight_area[y - 1][x - 1] != COMPLETE_SHIP_WEIGHT)
+        pc_engine_area->weight_area[y - 1][x - 1] = MISS_WEIGHT;
+    if (pc_engine_area->weight_area[y + 1][x + 1] != HIT_WEIGHT && pc_engine_area->weight_area[y + 1][x + 1] != MISS_WEIGHT && pc_engine_area->weight_area[y + 1][x + 1] != COMPLETE_SHIP_WEIGHT)
+        pc_engine_area->weight_area[y + 1][x + 1] = MISS_WEIGHT;
+    if (pc_engine_area->weight_area[y + 1][x - 1] != HIT_WEIGHT && pc_engine_area->weight_area[y + 1][x - 1] != MISS_WEIGHT && pc_engine_area->weight_area[y + 1][x - 1] != COMPLETE_SHIP_WEIGHT)
+        pc_engine_area->weight_area[y + 1][x - 1] = MISS_WEIGHT;
+    if (pc_engine_area->weight_area[y - 1][x + 1] != HIT_WEIGHT && pc_engine_area->weight_area[y - 1][x + 1] != MISS_WEIGHT && pc_engine_area->weight_area[y - 1][x + 1] != COMPLETE_SHIP_WEIGHT)
+        pc_engine_area->weight_area[y - 1][x + 1] = MISS_WEIGHT;
 }
 
 void set_hor_ver_weight(struct pc_engine* pc_engine_area, int x, int y)
 {
-    if (pc_engine_area->weight_area[y - 1][x] != 3)
+    if (pc_engine_area->weight_area[y - 1][x] != MISS_WEIGHT && pc_engine_area->weight_area[y - 1][x] != MISS_WEIGHT && pc_engine_area->weight_area[y - 1][x] != COMPLETE_SHIP_WEIGHT)
         pc_engine_area->weight_area[y - 1][x] = 1;
-    if (pc_engine_area->weight_area[y][x - 1] != 3)
-        pc_engine_area->weight_area[y][x - 1] = 1;
-    if (pc_engine_area->weight_area[y + 1][x] != 3)
-        pc_engine_area->weight_area[y + 1][x] = 1;
-    if (pc_engine_area->weight_area[y][x + 1] != 3)
-        pc_engine_area->weight_area[y][x + 1] = 1;
+    if (pc_engine_area->weight_area[y][x - 1] != MISS_WEIGHT && pc_engine_area->weight_area[y][x - 1] != MISS_WEIGHT && pc_engine_area->weight_area[y][x - 1] != COMPLETE_SHIP_WEIGHT)
+        pc_engine_area->weight_area[y][x - 1] = 2;
+    if (pc_engine_area->weight_area[y + 1][x] != MISS_WEIGHT && pc_engine_area->weight_area[y + 1][x] != MISS_WEIGHT && pc_engine_area->weight_area[y + 1][x] != COMPLETE_SHIP_WEIGHT)
+        pc_engine_area->weight_area[y + 1][x] = 3;
+    if (pc_engine_area->weight_area[y][x + 1] != MISS_WEIGHT && pc_engine_area->weight_area[y][x + 1] != MISS_WEIGHT && pc_engine_area->weight_area[y][x + 1] != COMPLETE_SHIP_WEIGHT)
+        pc_engine_area->weight_area[y][x + 1] = 4;
 
 }
 
@@ -213,7 +218,8 @@ int* get_biggest_weight(struct pc_engine* pc_engine_area)
     {
         for (int x_cell = 1; x_cell < 11; x_cell++)
         {
-            if (pc_engine_area->weight_area[y_cell][x_cell] > bigger_weight && pc_engine_area->weight_area[y_cell][x_cell] < 3) {
+            int cell = pc_engine_area->weight_area[y_cell][x_cell];
+            if (cell > bigger_weight && cell != HIT_WEIGHT && cell != MISS_WEIGHT) {
                 //* < 3 not shooted cells
                 bigger_weight = pc_engine_area->weight_area[y_cell][x_cell];
                 bigger_cell[1] = x_cell;
