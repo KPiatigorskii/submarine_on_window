@@ -104,6 +104,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         switch (wParam)
         {
         case NEW_GAME_WITH_PC:
+            PlaySound(NULL, NULL, 0);
             ships_is_generated = 0;
             game_is_on = 0;
             user_turn = 0;
