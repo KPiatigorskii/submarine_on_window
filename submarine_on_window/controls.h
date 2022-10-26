@@ -1,3 +1,4 @@
+#pragma once
 #define FILE_MENU_NEW 1
 #define TEST 2
 #define FILE_MENU_EXIT 3

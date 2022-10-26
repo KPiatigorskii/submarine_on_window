@@ -1,3 +1,4 @@
+#pragma once
 #include "ships.h"
 
 #define AREA_SIZE_WITH_BORDERS 12
