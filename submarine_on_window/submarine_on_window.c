@@ -63,7 +63,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             int cell_y;
             int shot_result;
             SetWindowText(hStaticLabel, L"PC turn! ");
-            Sleep(100);
+            Sleep(10);
             while (1) {
 
                 int *ptr = get_next_cell(&pc_engine_struct);
@@ -76,27 +76,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             }
             shot_result = shootCell(&game_user_area, hUserCell, cell_x, cell_y, hWnd);
             set_next_cell(&pc_engine_struct, shot_result, cell_x, cell_y, game_user_area.dead_ships_count);
-            pc_turn = 1;
-            user_turn = 0;
         }
 
     case WM_LBUTTONUP:
         if (game_is_on == 1) {
-            //mouse_x = GET_X_LPARAM(lParam);
-            //mouse_y = GET_Y_LPARAM(lParam);
-            //int cell_x, cell_y;
-            //int* position_ptr;
+            mouse_x = GET_X_LPARAM(lParam);
+            mouse_y = GET_Y_LPARAM(lParam);
+            int cell_x, cell_y;
+            int* position_ptr;
 
-            //position_ptr = checkCellPosition(&game_pc_area, mouse_x, mouse_y);
-            //cell_x = position_ptr[0];
-            //cell_y = position_ptr[1];
+            position_ptr = checkCellPosition(&game_pc_area, mouse_x, mouse_y);
+            cell_x = position_ptr[0];
+            cell_y = position_ptr[1];
 
-            //if (cell_x < AREA_SIZE_WITH_BORDERS - 1 && cell_x >= 1 && cell_y >= 1 && cell_y < AREA_SIZE_WITH_BORDERS - 1) {
-            //    if (cellIsNotClicked(&game_pc_area, cell_x, cell_y))
-            //    {
-            //        shootCell(&game_pc_area, hPCCell, cell_x, cell_y, hWnd);
-            //    }
-            //}
+            if (cell_x < AREA_SIZE_WITH_BORDERS - 1 && cell_x >= 1 && cell_y >= 1 && cell_y < AREA_SIZE_WITH_BORDERS - 1) {
+                if (cellIsNotClicked(&game_pc_area, cell_x, cell_y))
+                {
+                    shootCell(&game_pc_area, hPCCell, cell_x, cell_y, hWnd);
+                }
+            }
         }
         break;
     case WM_DESTROY:
@@ -127,8 +125,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
                 clearArea(hUserCell);
                 game_user_area = initGameArea(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
                 openArea(&game_user_area, hWnd, &hUserCell);
-                clearArea(hPCCell); // uncomment for debug and see all PC ships
-                openArea(&game_pc_area, hWnd, &hPCCell); // uncomment for debug and see all PC ships
+                //clearArea(hPCCell); // uncomment for debug and see all PC ships
+                //openArea(&game_pc_area, hWnd, &hPCCell); // uncomment for debug and see all PC ships
                 ships_is_generated = 1;
             }
             break;
