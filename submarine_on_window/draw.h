@@ -157,15 +157,15 @@ int shootCell(struct game_area* game_area, HWND hCell[AREA_SIZE_WITH_BORDERS][AR
             }
 
 
-            switch (msgBox)
-            {
-            case IDOK:
-                SendMessageW(hWnd, WM_COMMAND, NEW_GAME_WITH_PC, 0);
-                break;
-            case IDCANCEL:
-                SendMessageW(hWnd, WM_DESTROY, 0, 0);
-                break;
-            }
+            //switch (msgBox)
+            //{
+            //case IDOK:
+            //    SendMessageW(hWnd, WM_COMMAND, NEW_GAME_WITH_PC, 0);
+            //    break;
+            //case IDCANCEL:
+            //    SendMessageW(hWnd, WM_DESTROY, 0, 0);
+            //    break;
+            //}
         }
     }
     else {
