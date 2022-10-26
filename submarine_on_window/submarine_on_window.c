@@ -1,5 +1,4 @@
 ﻿#pragma comment (lib , "winmm.lib")
-
 #include <windows.h>
 #include <windowsx.h>
 #include <stdio.h>
@@ -28,6 +27,7 @@
 
 
 
+struct pc_engine pc_engine_struct;
 struct game_area game_user_area;
 struct game_area game_pc_area;
 
@@ -66,7 +66,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             Sleep(1000);
             while (1) {
 
-                int *ptr = get_next_cell();
+                int *ptr = get_next_cell(&pc_engine_struct);
                 cell_x = ptr[0];
                 cell_y = ptr[1];
 
@@ -75,7 +75,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
                 }
             }
             shot_result = shootCell(&game_user_area, hUserCell, cell_x, cell_y, hWnd);
-            refresh_engine(shot_result, cell_x, cell_y, game_area.dead_ships_count);
+            refresh_engine(&pc_engine_struct, shot_result, cell_x, cell_y, game_user_area.dead_ships_count);
         }
 
     case WM_LBUTTONUP:
@@ -109,7 +109,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             user_turn = 0;
             pc_turn = 0;
             AddGameControls(hWnd);
-            init_pc_logic();
+            pc_engine_struct = init_pc_logic();
             game_pc_area = initGameArea(START_X_PC_POSITION, START_Y_PC_POSITION, PC_ENTITY);
             game_user_area = initGameArea(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
             
