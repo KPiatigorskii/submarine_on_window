@@ -145,18 +145,18 @@ void set_weights_with_plane(struct pc_engine* pc_engine_area)
         {
             pc_engine_area->weight_area[y - 1][x] = MISS_WEIGHT;
             pc_engine_area->weight_area[y + 1][x] = MISS_WEIGHT;
-            if (pc_engine_area->weight_area[y][x + 1] != 5)
+            if (pc_engine_area->weight_area[y][x + 1] != HIT_WEIGHT)
                 pc_engine_area->weight_area[y][x + 1] = 4;
-            if (pc_engine_area->weight_area[y][x - 1] != 5)
+            if (pc_engine_area->weight_area[y][x - 1] != HIT_WEIGHT)
                 pc_engine_area->weight_area[y][x - 1] = 4;
         }
         else 
         {
             pc_engine_area->weight_area[y][x - 1] = MISS_WEIGHT;
             pc_engine_area->weight_area[y][x + 1] = MISS_WEIGHT;
-            if (pc_engine_area->weight_area[y + 1][x] != 5)
+            if (pc_engine_area->weight_area[y + 1][x] != HIT_WEIGHT)
                 pc_engine_area->weight_area[y + 1][x] = 4;
-            if (pc_engine_area->weight_area[y - 1][x] != 5)
+            if (pc_engine_area->weight_area[y - 1][x] != HIT_WEIGHT)
                 pc_engine_area->weight_area[y - 1][x] = 4;
         }
     }
