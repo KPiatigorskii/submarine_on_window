@@ -10,8 +10,8 @@
 
 
 
-static TCHAR* intro_sound = TEXT("source/music/intro_sound.wav");
-static TCHAR* start_game_sound = TEXT("source/music/start_game.wav");
-static TCHAR* win_game_sound = TEXT("source/music/win_game.wav");
-static TCHAR* game_over_sound = TEXT("source/music/game_over.wav");
+static TCHAR* intro_sound = TEXT("source/sound/intro_sound.wav");
+static TCHAR* start_game_sound = TEXT("source/sound/start_game.wav");
+static TCHAR* win_game_sound = TEXT("source/sound/win_game.wav");
+static TCHAR* game_over_sound = TEXT("source/sound/game_over.wav");
 	

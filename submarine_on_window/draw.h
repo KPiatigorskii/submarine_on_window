@@ -143,6 +143,7 @@ int shootCell(struct game_area* game_area, HWND hCell[AREA_SIZE_WITH_BORDERS][AR
             if (game_area->game_entity == PC_ENTITY)
             {
                 //change_other_image(game_area, hUserCell, hWnd);
+                PlaySound(win_game_sound, NULL, SND_ASYNC | SND_FILENAME);
                 msgBox = MessageBox(hWnd, TEXT("YOU'RE WINNER!  Would you retry?"),
                     TEXT("win window"), MB_OKCANCEL);
 
@@ -151,6 +152,7 @@ int shootCell(struct game_area* game_area, HWND hCell[AREA_SIZE_WITH_BORDERS][AR
             if (game_area->game_entity == USER_ENTITY)
             {
                 //change_other_image(game_area, hPCCell, hWnd);
+                PlaySound(game_over_sound, NULL, SND_ASYNC | SND_FILENAME);
                 msgBox = MessageBox(NULL, TEXT("YOU'RE NOT WINNER! Would you retry?"),
                     TEXT("lose window"), MB_OKCANCEL);
                 game_is_on = 0;
