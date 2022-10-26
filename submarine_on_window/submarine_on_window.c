@@ -67,15 +67,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             while (1) {
 
                 int *ptr = get_next_cell(&pc_engine_struct);
-                cell_x = ptr[0];
-                cell_y = ptr[1];
+                cell_y = ptr[0];
+                cell_x = ptr[1];
 
                 if (cellIsNotClicked(&game_user_area, cell_x, cell_y)) {
                     break;
                 }
             }
             shot_result = shootCell(&game_user_area, hUserCell, cell_x, cell_y, hWnd);
-            refresh_engine(&pc_engine_struct, shot_result, cell_x, cell_y, game_user_area.dead_ships_count);
+            set_next_cell(&pc_engine_struct, shot_result, cell_x, cell_y, game_user_area.dead_ships_count);
         }
 
     case WM_LBUTTONUP:
