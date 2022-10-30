@@ -131,8 +131,8 @@
     <ClInclude Include="controls.h" />
     <ClInclude Include="draw.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="game_area.h" />
-    <ClInclude Include="pc_engine.h" />
+    <ClInclude Include="gameArea.h" />
+    <ClInclude Include="PCEngine.h" />
     <ClInclude Include="ships.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="submarine_on_window.h" />
@@ -140,13 +140,12 @@
     <ClInclude Include="tests.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="submarine_on_window.c" />
+    <ClCompile Include="submarine.c" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="submarine_on_window.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Downloads\redSquare.bmp" />
     <Image Include="small.ico" />
     <Image Include="submarine_on_window.ico" />
   </ItemGroup>

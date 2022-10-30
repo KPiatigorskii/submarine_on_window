@@ -33,7 +33,7 @@
     <ClInclude Include="tests.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="game_area.h">
+    <ClInclude Include="gameArea.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
     <ClInclude Include="draw.h">
@@ -45,12 +45,12 @@
     <ClInclude Include="constants.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="pc_engine.h">
+    <ClInclude Include="PCEngine.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="submarine_on_window.c">
+    <ClCompile Include="submarine.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,9 +65,6 @@
     </Image>
     <Image Include="submarine_on_window.ico">
       <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="..\..\..\..\Downloads\redSquare.bmp">
-      <Filter>Исходные файлы</Filter>
     </Image>
   </ItemGroup>
 </Project>

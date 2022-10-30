@@ -7,7 +7,8 @@
 #define GENERATE_SHIPS 6
 #define START_GAME 7
 
-HWND hMenu, hGenerateButton, hStartGameButton;
+HMENU hMenu;
+HWND hGenerateButton, hStartGameButton;
 static  HWND hStaticLabel;
 
 void AddMenus(HWND hWnd)
