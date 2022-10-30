@@ -18,20 +18,20 @@ void AddMenus(HWND hWnd)
 
     HMENU hSubMenu = CreateMenu();
 
-    AppendMenu(hSubMenu, MF_STRING, NULL, L"SubMenu");
+    AppendMenu(hSubMenu, MF_STRING, (UINT_PTR)NULL, L"SubMenu");
     AppendMenu(hFileMenu, MF_STRING, NEW_GAME_WITH_PC, L"New game with PC");
-    AppendMenu(hFileMenu, MF_SEPARATOR, NULL, NULL);
+    AppendMenu(hFileMenu, MF_SEPARATOR, (UINT_PTR)NULL, (UINT_PTR)NULL);
     AppendMenu(hFileMenu, MF_STRING, FILE_MENU_EXIT, L"Exit");
 
 
     AppendMenu(hMenu, MF_POPUP, (UINT_PTR)hFileMenu, L"File");
-    AppendMenu(hMenu, MF_STRING, 2, L"Help");
+    //AppendMenu(hMenu, MF_STRING, 2, L"Help");
     SetMenu(hWnd, hMenu);
 }
 
 void AddGameControls(HWND hWnd)
 {
-    hGenerateButton = CreateWindowW(L"Button", L"Generate ships", WS_VISIBLE | WS_CHILD, 395, 480, 140, 20, hWnd, (HMENU)GENERATE_SHIPS, NULL, NULL);
+    hGenerateButton = CreateWindowW(L"Button", L"Generate ships", WS_VISIBLE | WS_CHILD, 395, 480, 140, 20, hWnd, (HMENU)GENERATE_SHIPS, (UINT_PTR)NULL, (UINT_PTR)NULL);
     hStartGameButton = CreateWindowW(L"Button", L"Start game", WS_VISIBLE | WS_CHILD, 655, 480, 140, 20, hWnd, (HMENU)START_GAME, NULL, NULL);
 }
 

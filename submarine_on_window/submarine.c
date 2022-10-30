@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <mmsystem.h>
 #include "gameArea.h"
-#include "game_flow.h"
 #include "draw.h"
 #include "PCEngine.h"
 
@@ -96,17 +95,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             gameUserArea = initGameArea(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
             DestroyWindow(hStaticLabel);
             clearArea(hPCCell);
-            loadDefaultImages(&gamePCArea, hWnd, &hPCCell);
+            loadDefaultImages(&gamePCArea, hWnd, hPCCell);
 
             clearArea(hUserCell);
-            loadDefaultImages(&gameUserArea, hWnd, &hUserCell);
+            loadDefaultImages(&gameUserArea, hWnd, hUserCell);
             break;
         case GENERATE_SHIPS:
             if (!gameIsOn)
             {
                 clearArea(hUserCell);
                 gameUserArea = initGameArea(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
-                openArea(&gameUserArea, hWnd, &hUserCell);
+                openArea(&gameUserArea, hWnd, hUserCell);
                 //clearArea(hPCCell); // uncomment for debug and see all PC ships
                 //openArea(&game_pc_area, hWnd, &hPCCell); // uncomment for debug and see all PC ships
                 shipsIsGenerated = 1;
@@ -117,7 +116,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             {
                 DestroyWindow(hGenerateButton);
                 PlaySound(startGameSound, NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
-                SetTimer(hWnd, ID_TIMER, 200, NULL);
+                SetTimer(hWnd, ID_TIMER, 250, NULL);
                 gameIsOn = 1;
                 hStaticLabel = CreateWindow(L"Static", L"Your turn", WS_CHILD | WS_VISIBLE | SS_CENTER, 535, 15, 120, 25, hWnd, 0, gHInst, 0);
                 ShowWindow(GetDlgItem(hGenerateButton, GENERATE_SHIPS), SW_HIDE);
@@ -163,7 +162,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     CreateWindowW(L"myWindowClass", L"Submarine", WS_OVERLAPPEDWINDOW | WS_VISIBLE, 100, 100, 1200, 600, NULL, NULL, NULL, NULL);
 
-    while (GetMessage((&msg), NULL, NULL, NULL))
+    while (GetMessage((&msg), (UINT_PTR)NULL, (UINT_PTR)NULL, (UINT_PTR)NULL))
     {
         TranslateMessage(&msg);
         DispatchMessage(&msg);

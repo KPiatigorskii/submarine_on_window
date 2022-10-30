@@ -137,7 +137,6 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="submarine_on_window.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="tests.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="submarine.c" />

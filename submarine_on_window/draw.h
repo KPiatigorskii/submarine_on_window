@@ -12,7 +12,7 @@ int msgBox;
 #define START_X_PC_POSITION 620
 #define START_Y_PC_POSITION 30
 #define CELL_SIZE 35
-HDC          hdc;
+HDC hdc;
 HBRUSH  NewBrush;
 HINSTANCE gHInst;
 
@@ -21,7 +21,7 @@ HWND hPCCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS] = { NULL };
 
 void clearAllWindow(hWnd);
 
-void openArea(struct gameArea* game_area, HWND hWnd, HWND* hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
+void openArea(struct gameArea* game_area, HWND hWnd, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
     HBITMAP hCellImageChange;
     LPCWSTR imageName;
@@ -45,7 +45,7 @@ void openArea(struct gameArea* game_area, HWND hWnd, HWND* hCell[AREA_SIZE_WITH_
     }
 }
 
-void loadDefaultImages(struct gameArea* game_area, HWND hWnd, HWND* hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
+void loadDefaultImages(struct gameArea* game_area, HWND hWnd, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
     HBITMAP hCellImage = (HBITMAP)LoadImageW(NULL, CLOSE_CELL, IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
     for (int i = 1; i < AREA_SIZE_WITH_BORDERS - 1; i++)

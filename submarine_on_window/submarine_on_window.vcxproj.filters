@@ -30,9 +30,6 @@
     <ClInclude Include="ships.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="tests.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="gameArea.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
