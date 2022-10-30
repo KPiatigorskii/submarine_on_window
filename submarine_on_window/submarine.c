@@ -42,7 +42,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         if (pcTurn && gameIsOn == 1)
         {
             int shotResult;
-            SetWindowText(hStaticLabel, L"PC turn! ");
+            SetWindowText(hStaticLabel, TEXT("PC turn! "));
             Sleep(500);
             while (1) {
 
@@ -118,7 +118,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
                 PlaySound(startGameSound, NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
                 SetTimer(hWnd, ID_TIMER, 250, NULL);
                 gameIsOn = 1;
-                hStaticLabel = CreateWindow(L"Static", L"Your turn", WS_CHILD | WS_VISIBLE | SS_CENTER, 535, 15, 120, 25, hWnd, 0, gHInst, 0);
+                hStaticLabel = CreateWindow(TEXT("Static"), TEXT("Your turn"), WS_CHILD | WS_VISIBLE | SS_CENTER, 535, 15, 120, 25, hWnd, 0, gHInst, 0);
                 ShowWindow(GetDlgItem(hGenerateButton, GENERATE_SHIPS), SW_HIDE);
                 pcTurn = 0;
                 userTurn = 1;
@@ -151,7 +151,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     wc.hbrBackground = CreatePatternBrush((HBITMAP)LoadImageW(NULL, BACKGROUND_PATH, IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE));
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.hInstance = hInstance;
-    wc.lpszClassName = L"myWindowClass";
+    wc.lpszClassName = TEXT("myWindowClass");
     wc.lpfnWndProc = WndProc;
     wc.style = CS_DBLCLKS;
     
@@ -160,7 +160,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     MSG msg = { 0 };
 
-    CreateWindowW(L"myWindowClass", L"Submarine", WS_OVERLAPPEDWINDOW | WS_VISIBLE, 100, 100, 1200, 600, NULL, NULL, NULL, NULL);
+    CreateWindowW( TEXT("myWindowClass"), TEXT("Submarine"), WS_OVERLAPPEDWINDOW | WS_VISIBLE, 100, 100, 1200, 600, NULL, NULL, NULL, NULL);
 
     while (GetMessage((&msg), (UINT_PTR)NULL, (UINT_PTR)NULL, (UINT_PTR)NULL))
     {

@@ -46,6 +46,7 @@ struct gameArea initGameArea(int startPosX,int startPosY, enum gameEntity gameEn
             gameArea.area[i][j] = 0;
         }
     }
+
     for (int i = 0; i < SHIPS_COUNT; i++)
     {
         gameArea.ships[i] = generateShip(gameArea.area, shipCellArray[i], i);

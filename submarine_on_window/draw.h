@@ -31,7 +31,7 @@ void openArea(struct gameArea* game_area, HWND hWnd, HWND hCell[AREA_SIZE_WITH_B
         for (int j = 1; j < AREA_SIZE_WITH_BORDERS - 1; j++)
         {
             hCell[i][j] = CreateWindowW(
-                L"static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP,
+                TEXT("static"), NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP,
                 game_area->startPosX + CELL_SIZE * j,
                 game_area->startPosY + CELL_SIZE * i,
                 NULL, NULL, hWnd, NULL, NULL, NULL);
@@ -52,7 +52,7 @@ void loadDefaultImages(struct gameArea* game_area, HWND hWnd, HWND hCell[AREA_SI
     {
         for (int j = 1; j < AREA_SIZE_WITH_BORDERS - 1; j++)
         {
-            hCell[i][j] = CreateWindowW(L"static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, game_area->startPosX + CELL_SIZE * j, game_area->startPosY + CELL_SIZE * i, 120, 120, hWnd, NULL, NULL, NULL);
+            hCell[i][j] = CreateWindowW(TEXT("static"), NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, game_area->startPosX + CELL_SIZE * j, game_area->startPosY + CELL_SIZE * i, 120, 120, hWnd, NULL, NULL, NULL);
             SendMessageW(hCell[i][j], STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hCellImage);
         }
     }
@@ -74,7 +74,7 @@ void changeOtherImage(struct gameArea* gameArea, HWND hCell[AREA_SIZE_WITH_BORDE
                 if (i < AREA_SIZE_WITH_BORDERS - 1 && j < AREA_SIZE_WITH_BORDERS - 1 && i > 0 && j > 0) {
                     DestroyWindow(hCell[i][j]);
                     hCell[i][j] = CreateWindowW(
-                        L"static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP,
+                        TEXT("static"), NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP,
                         start_pos_x + CELL_SIZE * i,
                         start_pos_y + CELL_SIZE * j,
                         NULL, NULL, hWnd, NULL, NULL, NULL);
@@ -101,7 +101,7 @@ void changeAroundImage(struct gameArea* gameArea, int shipId, HWND hWnd, HWND hC
             {
                 incrementClickedCells(gameArea, dead_x, dead_y);
                 DestroyWindow(hCell[dead_y][dead_x]);
-                hCell[dead_y][dead_x] = CreateWindowW(L"static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, gameArea->startPosX + CELL_SIZE * dead_x, gameArea->startPosY + CELL_SIZE * dead_y, NULL, NULL, hWnd, NULL, NULL, NULL);
+                hCell[dead_y][dead_x] = CreateWindowW(TEXT("static"), NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, gameArea->startPosX + CELL_SIZE * dead_x, gameArea->startPosY + CELL_SIZE * dead_y, NULL, NULL, hWnd, NULL, NULL, NULL);
                 SendMessageW(hCell[dead_y][dead_x], STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hCellImage);
             }
         }
@@ -124,7 +124,7 @@ int shootCell(struct gameArea* gameArea, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA
         
     hCellImage = (HBITMAP)LoadImageW(NULL, imageName, IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
 
-    hCell[y][x] = CreateWindowW(L"static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, gameArea->startPosX + CELL_SIZE * x, gameArea->startPosY + CELL_SIZE * y, NULL, NULL, hWnd, NULL, NULL, NULL);
+    hCell[y][x] = CreateWindowW(TEXT("static"), NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, gameArea->startPosX + CELL_SIZE * x, gameArea->startPosY + CELL_SIZE * y, NULL, NULL, hWnd, NULL, NULL, NULL);
     SendMessageW(hCell[y][x], STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hCellImage);
 
     if (gameArea->area[y][x] == 2)
@@ -178,7 +178,7 @@ int shootCell(struct gameArea* gameArea, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA
         else {
             pcTurn = 0;
             userTurn = 1;
-            SetWindowText(hStaticLabel, L"Your turn! ");
+            SetWindowText(hStaticLabel, TEXT("Your turn!"));
         }
 
     }
