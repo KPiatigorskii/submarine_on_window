@@ -114,12 +114,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         case START_GAME:
             if (!gameIsOn && shipsIsGenerated)
             {
-                DestroyWindow(hGenerateButton);
                 PlaySound(startGameSound, NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
                 SetTimer(hWnd, ID_TIMER, 250, NULL);
                 gameIsOn = 1;
                 hStaticLabel = CreateWindow(TEXT("Static"), TEXT("Your turn"), WS_CHILD | WS_VISIBLE | SS_CENTER, 535, 15, 120, 25, hWnd, 0, gHInst, 0);
-                ShowWindow(GetDlgItem(hGenerateButton, GENERATE_SHIPS), SW_HIDE);
+                RemoveGameControlsBeforeStart();
                 pcTurn = 0;
                 userTurn = 1;
             }
