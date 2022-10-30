@@ -35,6 +35,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     int mouseX, mouseY;
     int cellX, cellY;
+    int* nextCellPtr;
 
     switch (msg)
     {
@@ -46,9 +47,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             Sleep(500);
             while (1) {
 
-                int *ptr = getNextCell(&pcEngineStruct);
-                cellY = ptr[0];
-                cellX = ptr[1];
+                nextCellPtr = getNextCell(&pcEngineStruct);
+                cellY = nextCellPtr[0];
+                cellX = nextCellPtr[1];
 
                 if (cellIsNotClicked(&gameUserArea, cellX, cellY)) {
                     break;
@@ -106,8 +107,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
                 clearArea(hUserCell);
                 gameUserArea = initGameArea(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
                 openArea(&gameUserArea, hWnd, hUserCell);
-                //clearArea(hPCCell); // uncomment for debug and see all PC ships
-                //openArea(&game_pc_area, hWnd, &hPCCell); // uncomment for debug and see all PC ships
+                clearArea(hPCCell); // uncomment for debug and see all PC ships
+                openArea(&gamePCArea, hWnd, &hPCCell); // uncomment for debug and see all PC ships
                 shipsIsGenerated = 1;
             }
             break;
