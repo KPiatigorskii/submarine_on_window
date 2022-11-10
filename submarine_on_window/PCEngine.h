@@ -219,23 +219,23 @@ void setHorVerPriority(struct pcEngine* pcEngineArea, int x, int y)
 
 int* getBiggestPriority(struct pcEngine* pcEngineArea)
 {
-    int bigger_weight = EMPTY_WEIGHT;
-    int* bigger_cell = malloc(2);
+    int biggerPriority = EMPTY_WEIGHT;
+    int* biggerCell = malloc(2);
 
     for (int y_cell = 1; y_cell < 11; y_cell++)
     {
         for (int x_cell = 1; x_cell < 11; x_cell++)
         {
             int cell = pcEngineArea->priorityArea[y_cell][x_cell];
-            if (cell > bigger_weight) {
+            if (cell > biggerPriority) {
                 //* < 3 not shooted cells
-                bigger_weight = pcEngineArea->priorityArea[y_cell][x_cell];
-                bigger_cell[1] = x_cell;
-                bigger_cell[0] = y_cell;
+                biggerPriority = pcEngineArea->priorityArea[y_cell][x_cell];
+                biggerCell[1] = x_cell;
+                biggerCell[0] = y_cell;
             }
         }
     }
-    return bigger_cell;
+    return biggerCell;
 }
 
 void clearShipCells(struct pcEngine* pcEngineArea)

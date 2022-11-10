@@ -107,8 +107,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
                 clearArea(hUserCell);
                 gameUserArea = initGameArea(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
                 openArea(&gameUserArea, hWnd, hUserCell);
-                clearArea(hPCCell); // uncomment for debug and see all PC ships
-                openArea(&gamePCArea, hWnd, &hPCCell); // uncomment for debug and see all PC ships
+                //clearArea(hPCCell); // uncomment for debug and see all PC ships
+                //openArea(&gamePCArea, hWnd, &hPCCell); // uncomment for debug and see all PC ships
                 shipsIsGenerated = 1;
             }
             break;

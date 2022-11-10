@@ -171,31 +171,31 @@ int setAllCoordsForShip(int startX, int startY, int* multipliers, enum ship_dire
 
 int* getMultipliers(enum ship_directions direction)
 {
-    int* dir_arr = (int*)malloc(2);
+    int* dirArr = (int*)malloc(2);
     switch (direction) {
     case UP:
-        dir_arr[0] = 1;
-        dir_arr[1] = -1;
+        dirArr[0] = 1;
+        dirArr[1] = -1;
         break;
     case RIGHT:
-        dir_arr[0] = 1;
-        dir_arr[1] = 1;
+        dirArr[0] = 1;
+        dirArr[1] = 1;
         break;
     case DOWN:
-        dir_arr[0] = 1;
-        dir_arr[1] = 1;
+        dirArr[0] = 1;
+        dirArr[1] = 1;
         break;
     case LEFT:
-        dir_arr[0] = -1;
-        dir_arr[1] = 1;
+        dirArr[0] = -1;
+        dirArr[1] = 1;
         break;
 
     default:
-        dir_arr[0] = 1;
-        dir_arr[1] = -1;
+        dirArr[0] = 1;
+        dirArr[1] = -1;
         break;
     }
-    return dir_arr;
+    return dirArr;
 }
 
 enum shipDirections getRandomDirection()
