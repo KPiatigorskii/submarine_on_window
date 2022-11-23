@@ -29,7 +29,7 @@
 #define HIT_PREDICT_AROUND_WEIGHT 1
 #define HIT_PREDICT_PLANE_WEIGHT 2
 
-struct pcEngine {
+ typedef struct pcEngine {
     int priorityArea[12][12];
     int nextCell[2]; // y,x
     int hitCount;
@@ -37,28 +37,28 @@ struct pcEngine {
     int deadShips;
     int shipPlane;
     int shipCells[4][2];
-};
+} PC_ENGINE;
 
 void test(int x);
 
-struct pcEngine initPCLogic();
+PC_ENGINE initPCLogic();
 
 enum shoot_directions getRandomDirectionShoot();
 
-void setAroundPriority(struct pcEngine* pcEngineArea);
+void setAroundPriority(PC_ENGINE* pcEngineArea);
 
-void SetNextCell(struct pcEngine* pcEngineArea, int hit_result, int x, int y, int deads);
+void SetNextCell(PC_ENGINE* pcEngineArea, int hit_result, int x, int y, int deads);
 
-void setPriorityWithPlane(struct pcEngine* pcEngineArea);
+void setPriorityWithPlane(PC_ENGINE* pcEngineArea);
 
-void findPlane(struct pcEngine* pcEngineArea);
+void findPlane(PC_ENGINE* pcEngineArea);
 
-int* getNextCell(struct pcEngine* pcEngineArea);
+int* getNextCell(PC_ENGINE* pcEngineArea);
 
-void setDiagonalPriority(struct pcEngine* pcEngineArea, int x, int y);
+void setDiagonalPriority(PC_ENGINE* pcEngineArea, int x, int y);
 
-void setHorVerPriority(struct pcEngine* pcEngineArea, int x, int y);
+void setHorVerPriority(PC_ENGINE* pcEngineArea, int x, int y);
 
-int* getBiggestPriority(struct pcEngine* pcEngineArea);
+int* getBiggestPriority(PC_ENGINE* pcEngineArea);
 
-void clearShipCells(struct pcEngine* pcEngineArea);
+void clearShipCells(PC_ENGINE* pcEngineArea);
