@@ -3,15 +3,17 @@
 
 int shipCellArray[10] = { 4,3,3,2,2,2,1,1,1,1 };
 
-void incrementClickedCells(struct gameArea* gameArea, int x, int y)
+void incrementClickedCells(GAME_AREA* gameArea, int x, int y)
 {
     gameArea->clickedCells[gameArea->checkedCellsCount][0] = y;
     gameArea->clickedCells[gameArea->checkedCellsCount][1] = x;
     gameArea->checkedCellsCount++;
 }
 
-struct gameArea initGameArea(int startPosX, int startPosY, enum gameEntity gameEntity)
+GAME_AREA initGameArea(int startPosX, int startPosY, enum gameEntity gameEntity)
 {
+    GAME_AREA gameArea;
+
     gameArea.shipCounter = 0;
     gameArea.moveCounter = 0;
     gameArea.deadShipsCount = 0;
@@ -37,7 +39,7 @@ struct gameArea initGameArea(int startPosX, int startPosY, enum gameEntity gameE
     return gameArea;
 }
 
-int cellIsNotClicked(struct gameArea* gameArea, int x, int y)
+int cellIsNotClicked(GAME_AREA* gameArea, int x, int y)
 {
     for (int i = 0; i < gameArea->checkedCellsCount; i++)
     {
@@ -47,7 +49,7 @@ int cellIsNotClicked(struct gameArea* gameArea, int x, int y)
     return 1;
 }
 
-int getShipId(struct gameArea* gameArea, int x, int y)
+int getShipId(GAME_AREA* gameArea, int x, int y)
 {
     for (int i = 0; i < gameArea->shipCounter; i++)
     {
@@ -63,12 +65,12 @@ int getShipId(struct gameArea* gameArea, int x, int y)
     return -1;
 }
 
-void decreaseShipHealth(struct gameArea* gameArea, int ship_id)
+void decreaseShipHealth(GAME_AREA* gameArea, int ship_id)
 {
     gameArea->ships[ship_id].currentHealth = gameArea->ships[ship_id].currentHealth - 1;
 }
 
-int* checkCellPosition(struct gameArea* gameArea, int x, int y)
+int* checkCellPosition(GAME_AREA* gameArea, int x, int y)
 {
     int* arr = (int*)malloc(2);
     arr[0] = (int)(x - gameArea->startPosX) / CELL_SIZE;
@@ -76,7 +78,7 @@ int* checkCellPosition(struct gameArea* gameArea, int x, int y)
     return arr;
 }
 
-int checkDeadShip(struct gameArea* gameArea, int  ship_id)
+int checkDeadShip(GAME_AREA* gameArea, int  ship_id)
 {
     if (gameArea->ships[ship_id].currentHealth == 0)
         return 1;

@@ -21,7 +21,7 @@ HWND hPCCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS] = { NULL };
 
 void clearAllWindow(hWnd);
 
-void openArea(struct gameArea* game_area, HWND hWnd, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
+void openArea(GAME_AREA* game_area, HWND hWnd, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
     HBITMAP hCellImageChange;
     LPCWSTR imageName;
@@ -45,7 +45,7 @@ void openArea(struct gameArea* game_area, HWND hWnd, HWND hCell[AREA_SIZE_WITH_B
     }
 }
 
-void loadDefaultImages(struct gameArea* game_area, HWND hWnd, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
+void loadDefaultImages(GAME_AREA* game_area, HWND hWnd, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
     HBITMAP hCellImage = (HBITMAP)LoadImageW(NULL, CLOSE_CELL, IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
     for (int i = 1; i < AREA_SIZE_WITH_BORDERS - 1; i++)
@@ -58,7 +58,7 @@ void loadDefaultImages(struct gameArea* game_area, HWND hWnd, HWND hCell[AREA_SI
     }
 }
 
-void changeOtherImage(struct gameArea* gameArea, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], HWND hWnd)
+void changeOtherImage(GAME_AREA* gameArea, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], HWND hWnd)
 {
     HBITMAP hCellImageChange = (HBITMAP)LoadImageW(NULL, MISS_CELL, IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
     int start_pos_x;
@@ -85,7 +85,7 @@ void changeOtherImage(struct gameArea* gameArea, HWND hCell[AREA_SIZE_WITH_BORDE
     }
 }
 
-void changeAroundImage(struct gameArea* gameArea, int shipId, HWND hWnd, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
+void changeAroundImage(GAME_AREA* gameArea, int shipId, HWND hWnd, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
     HBITMAP hCellImage;
 
@@ -109,7 +109,7 @@ void changeAroundImage(struct gameArea* gameArea, int shipId, HWND hWnd, HWND hC
 }
 
 
-int shootCell(struct gameArea* gameArea, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], int x, int y, HWND hWnd)
+int shootCell(GAME_AREA* gameArea, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], int x, int y, HWND hWnd)
 {
     HBITMAP hCellImage;
     LPCWSTR imageName;
