@@ -41,14 +41,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     int mouseX, mouseY;
     int cellX, cellY;
     int* nextCellPtr;
+    int shotResult;
 
     switch (msg)
     {
     case WM_TIMER:
-        if (pcTurn && gameIsOn == 1)
+        if (gameType == 0 && pcTurn && gameIsOn == 1)
         {
-            int shotResult;
-            SetWindowText(hStaticLabel, TEXT("PC turn! "));
+            //SetWindowText(hStaticLabel, TEXT("PC turn! "));
             Sleep(500);
             while (1) {
 
@@ -60,9 +60,45 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
                     break;
                 }
             }
-            shotResult = shootCell(&gameUserArea, hUserCell, cellX, cellY, hWnd);
+            shotResult = shootCell(&gameUserArea, hUserCell, cellX, cellY, hWnd, hStaticLabel);
             SetNextCell(&pcEngineStruct, shotResult, cellX, cellY, gameUserArea.deadShipsCount);
         }
+        if (gameType == 1 && gameIsOn == 1) {
+
+            if (pcTurn == 1) { // pc #1 turn
+                //SetWindowText(hStaticLabel, TEXT("PC #1 turn! "));
+                Sleep(500);
+                while (1) {
+
+                    nextCellPtr = getNextCell(&pcEngineStruct);
+                    cellY = nextCellPtr[0];
+                    cellX = nextCellPtr[1];
+
+                    if (cellIsNotClicked(&gamePC2Area, cellX, cellY)) {
+                        break;
+                    }
+                }
+                shotResult = shootCell(&gamePC2Area, hPC2Cell, cellX, cellY, hWnd, hStaticLabel);
+                SetNextCell(&pcEngineStruct, shotResult, cellX, cellY, gamePC2Area.deadShipsCount);
+            }
+            else {  // pc #2 turn
+                //SetWindowText(hStaticLabel, TEXT("PC #2 turn! "));
+                Sleep(500);
+                while (1) {
+
+                    nextCellPtr = getNextCell(&pc2EngineStruct);
+                    cellY = nextCellPtr[0];
+                    cellX = nextCellPtr[1];
+
+                    if (cellIsNotClicked(&gamePCArea, cellX, cellY)) {
+                        break;
+                    }
+                }
+                shotResult = shootCell(&gamePCArea, hPCCell, cellX, cellY, hWnd, hStaticLabel);
+                SetNextCell(&pc2EngineStruct, shotResult, cellX, cellY, gamePCArea.deadShipsCount);
+            }
+        }
+
 
     case WM_LBUTTONUP:
         if (gameIsOn == 1) {
@@ -78,7 +114,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             if (cellX < AREA_SIZE_WITH_BORDERS - 1 && cellX >= 1 && cellY >= 1 && cellY < AREA_SIZE_WITH_BORDERS - 1) {
                 if (cellIsNotClicked(&gamePCArea, cellX, cellY))
                 {
-                    shootCell(&gamePCArea, hPCCell, cellX, cellY, hWnd);
+                    shootCell(&gamePCArea, hPCCell, cellX, cellY, hWnd, hStaticLabel);
                 }
             }
         }
@@ -93,7 +129,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
                 PlaySound(NULL, NULL, 0);
                 shipsIsGenerated = 0;
                 gameIsOn = 0;
-                userTurn = 0;
+                userTurn = 1;
                 pcTurn = 0;
                 gameType = 0;
                 AddGameControls(hWnd);
