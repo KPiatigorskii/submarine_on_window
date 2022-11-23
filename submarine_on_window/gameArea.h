@@ -4,7 +4,7 @@
 #define AREA_SIZE_WITH_BORDERS 12
 #define CELL_SIZE 35
 
-enum gameEntity { USER_ENTITY = 0, PC_ENTITY = 1 };
+enum gameEntity { USER_ENTITY = 0, PC_ENTITY = 1, PC2_ENTITY = 2 };
 
 typedef struct gameArea
 {
