@@ -144,7 +144,7 @@
     <ClCompile Include="gameArea.c" />
     <ClCompile Include="PCEngine.c" />
     <ClCompile Include="ships.c" />
-    <ClCompile Include="submarine.c" />
+    <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="submarine_on_window.rc" />
