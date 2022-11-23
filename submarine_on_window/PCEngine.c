@@ -29,9 +29,9 @@ void test(int x) {
     return x;
 }
 
-struct pcEngine initPCLogic()
+PC_ENGINE initPCLogic()
 {
-    struct pcEngine pcEngineArea;
+    PC_ENGINE pcEngineArea;
     pcEngineArea.nextCell[0] = -1;
     pcEngineArea.nextCell[1] = -1;
     pcEngineArea.shotCounter = 0;
@@ -60,7 +60,7 @@ enum shoot_directions getRandomDirectionShoot()
     return direction;
 }
 
-void setAroundPriority(struct pcEngine* pcEngineArea)
+void setAroundPriority(PC_ENGINE* pcEngineArea)
 {
     for (int i = 0; i < pcEngineArea->hitCount; i++)
     {
@@ -76,7 +76,7 @@ void setAroundPriority(struct pcEngine* pcEngineArea)
     }
 }
 
-void SetNextCell(struct pcEngine* pcEngineArea, int hit_result, int x, int y, int deads)
+void SetNextCell(PC_ENGINE* pcEngineArea, int hit_result, int x, int y, int deads)
 {
     int* position_ptr;
     pcEngineArea->shotCounter++;
@@ -129,7 +129,7 @@ void SetNextCell(struct pcEngine* pcEngineArea, int hit_result, int x, int y, in
     pcEngineArea->nextCell[1] = position_ptr[1];
 }
 
-void setPriorityWithPlane(struct pcEngine* pcEngineArea)
+void setPriorityWithPlane(PC_ENGINE* pcEngineArea)
 {
     for (int i = 0; i < pcEngineArea->hitCount; i++)
     {
@@ -156,7 +156,7 @@ void setPriorityWithPlane(struct pcEngine* pcEngineArea)
     }
 }
 
-void findPlane(struct pcEngine* pcEngineArea)
+void findPlane(PC_ENGINE* pcEngineArea)
 {
     int x_dif = pcEngineArea->shipCells[0][1] - pcEngineArea->shipCells[1][1];
     int y_dif = pcEngineArea->shipCells[0][0] - pcEngineArea->shipCells[1][0];
@@ -166,7 +166,7 @@ void findPlane(struct pcEngine* pcEngineArea)
         pcEngineArea->shipPlane = 0; // horisontal
 }
 
-int* getNextCell(struct pcEngine* pcEngineArea)
+int* getNextCell(PC_ENGINE* pcEngineArea)
 {
     if (pcEngineArea->shotCounter == 0 || pcEngineArea->hitCount == 0) {
         int* coords = malloc(2);
@@ -178,7 +178,7 @@ int* getNextCell(struct pcEngine* pcEngineArea)
         return pcEngineArea->nextCell;
 }
 
-void setDiagonalPriority(struct pcEngine* pcEngineArea, int x, int y)
+void setDiagonalPriority(PC_ENGINE* pcEngineArea, int x, int y)
 {
     if (pcEngineArea->priorityArea[y - 1][x - 1] >= EMPTY_WEIGHT)
         pcEngineArea->priorityArea[y - 1][x - 1] = COMPLETE_SHIP_WEIGHT;
@@ -190,7 +190,7 @@ void setDiagonalPriority(struct pcEngine* pcEngineArea, int x, int y)
         pcEngineArea->priorityArea[y - 1][x + 1] = COMPLETE_SHIP_WEIGHT;
 }
 
-void setHorVerPriority(struct pcEngine* pcEngineArea, int x, int y)
+void setHorVerPriority(PC_ENGINE* pcEngineArea, int x, int y)
 {
     if (pcEngineArea->priorityArea[y - 1][x] >= EMPTY_WEIGHT)
         pcEngineArea->priorityArea[y - 1][x] = HIT_PREDICT_AROUND_WEIGHT;
@@ -203,7 +203,7 @@ void setHorVerPriority(struct pcEngine* pcEngineArea, int x, int y)
 
 }
 
-int* getBiggestPriority(struct pcEngine* pcEngineArea)
+int* getBiggestPriority(PC_ENGINE* pcEngineArea)
 {
     int biggerPriority = EMPTY_WEIGHT;
     int* biggerCell = malloc(2);
@@ -224,7 +224,7 @@ int* getBiggestPriority(struct pcEngine* pcEngineArea)
     return biggerCell;
 }
 
-void clearShipCells(struct pcEngine* pcEngineArea)
+void clearShipCells(PC_ENGINE* pcEngineArea)
 {
     for (int i = 0; i < 4; i++)
     {

@@ -12,7 +12,7 @@
 #define ID_TIMER 1
 #define IDB_BITMAP1 101
 
-struct pcEngine pcEngineStruct;
+PC_ENGINE pcEngineStruct;
 struct gameArea gameUserArea;
 struct gameArea gamePCArea;
 
