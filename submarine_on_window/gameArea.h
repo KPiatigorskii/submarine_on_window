@@ -17,7 +17,7 @@ struct gameArea
     int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS];
     int clickedCells[100][2];
     enum gameEntity gameEntity;
-    struct ship ships[SHIPS_COUNT];
+    SHIP ships[SHIPS_COUNT];
 } gameArea;
 
 

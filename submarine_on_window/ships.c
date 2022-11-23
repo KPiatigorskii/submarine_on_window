@@ -15,7 +15,7 @@ void printArea0(int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
     printf("\n");
 }
 
-void printShip(struct ship* newShip)
+void printShip(SHIP* newShip)
 {
     printf("====================\n");
     printf("cells:\n");
@@ -42,7 +42,7 @@ int checkCellBorders(int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], i
     return 1;
 }
 
-int checkBorders(struct ship* newShip)
+int checkBorders(SHIP* newShip)
 {
     for (int count = 0; count < newShip->deckCount; count++)
     {
@@ -52,7 +52,7 @@ int checkBorders(struct ship* newShip)
     return 1;
 }
 
-int cellInShip(struct ship* newShip, int i, int j)
+int cellInShip(SHIP* newShip, int i, int j)
 {
     for (int count = 0; count < newShip->deckCount; count++)
     {
@@ -62,7 +62,7 @@ int cellInShip(struct ship* newShip, int i, int j)
     return 0;
 }
 
-void fillArea(struct ship* newShip, int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
+void fillArea(SHIP* newShip, int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
     for (int i = 0; i < newShip->deckCount; i++)
     {
@@ -75,7 +75,7 @@ void fillArea(struct ship* newShip, int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_W
 
 }
 
-int setAroundCoordsForShip(struct ship* newShip, int multipliers[2], int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
+int setAroundCoordsForShip(SHIP* newShip, int multipliers[2], int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
     int startX = newShip->coords[0][0];
     int startY = newShip->coords[0][1];
@@ -107,7 +107,7 @@ int setAroundCoordsForShip(struct ship* newShip, int multipliers[2], int area[AR
     return 1;
 }
 
-int setAllCoordsForShip(int startX, int startY, int* multipliers, enum ship_directions direction, struct ship* newShip, int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
+int setAllCoordsForShip(int startX, int startY, int* multipliers, enum ship_directions direction, SHIP* newShip, int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
     for (int i = 0; i < newShip->deckCount; i++)
     {
@@ -207,7 +207,7 @@ int* getFreeCell(int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
     }
 }
 
-int checkAllCellIsValid(struct ship* newShip, int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
+int checkAllCellIsValid(SHIP* newShip, int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS])
 {
     for (int i = 0; i < newShip->deckCount; i++)
     {
@@ -224,9 +224,9 @@ int checkAllCellIsValid(struct ship* newShip, int area[AREA_SIZE_WITH_BORDERS][A
     return 0;
 }
 
-struct ship generateShip(int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], int deckCount, int id)
+SHIP generateShip(int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], int deckCount, int id)
 {
-    struct ship newShip;
+    SHIP newShip;
     int startX, startY;
     enum ship_directions direction;
     int* startCoordinates;
