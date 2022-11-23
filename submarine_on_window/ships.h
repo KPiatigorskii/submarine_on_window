@@ -13,7 +13,7 @@
 
 enum shipDirections { UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3 };
 
-struct ship
+typedef struct ship
 {
     int coords[4][2];
     int aroundCoords[18][2];
@@ -23,21 +23,21 @@ struct ship
     int currentHealth;
     int aroundSize;
     int deckCount;
-};
+} SHIP;
 
 void printArea0(int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS]);
 
-void printShip(struct ship* newShip);
+void printShip(SHIP* newShip);
 
 int checkCellBorders(int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], int x, int y);
 
-int checkBorders(struct ship* newShip);
+int checkBorders(SHIP* newShip);
 
-void fillArea(struct ship* newShip, int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS]);
+void fillArea(SHIP* newShip, int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS]);
 
-int setAroundCoordsForShip(struct ship* newShip, int multipliers[2], int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS]);
+int setAroundCoordsForShip(SHIP* newShip, int multipliers[2], int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS]);
 
-int setAllCoordsForShip(int startX, int startY, int* multipliers, enum ship_directions direction, struct ship* newShip, int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS]);
+int setAllCoordsForShip(int startX, int startY, int* multipliers, enum ship_directions direction, SHIP* newShip, int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS]);
 
 int* getMultipliers(enum ship_directions direction);
 
@@ -47,7 +47,7 @@ int isNeighborsFree(int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], in
 
 int* getFreeCell(int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS]);
 
-int checkAllCellIsValid(struct ship* newShip, int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS]);
+int checkAllCellIsValid(SHIP* newShip, int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS]);
 
-struct ship generateShip(int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], int deckCount, int id);
+SHIP generateShip(int area[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], int deckCount, int id);
 
