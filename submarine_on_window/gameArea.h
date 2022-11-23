@@ -6,7 +6,7 @@
 
 enum gameEntity { USER_ENTITY = 0, PC_ENTITY = 1 };
 
-struct gameArea
+typedef struct gameArea
 {
     int shipCounter;
     int moveCounter;
@@ -18,20 +18,20 @@ struct gameArea
     int clickedCells[100][2];
     enum gameEntity gameEntity;
     SHIP ships[SHIPS_COUNT];
-} gameArea;
+} GAME_AREA;
 
 
-void incrementClickedCells(struct gameArea* gameArea, int x, int y);
+void incrementClickedCells(GAME_AREA* gameArea, int x, int y);
 
-struct gameArea initGameArea(int startPosX, int startPosY, enum gameEntity gameEntity);
+GAME_AREA initGameArea(int startPosX, int startPosY, enum gameEntity gameEntity);
 
-int cellIsNotClicked(struct gameArea* gameArea, int x, int y);
+int cellIsNotClicked(GAME_AREA* gameArea, int x, int y);
 
-int getShipId(struct gameArea* gameArea, int x, int y);
+int getShipId(GAME_AREA* gameArea, int x, int y);
 
-void decreaseShipHealth(struct gameArea* gameArea, int ship_id);
+void decreaseShipHealth(GAME_AREA* gameArea, int ship_id);
 
-int* checkCellPosition(struct gameArea* gameArea, int x, int y);
+int* checkCellPosition(GAME_AREA* gameArea, int x, int y);
 
-int checkDeadShip(struct gameArea* gameArea, int  ship_id);
+int checkDeadShip(GAME_AREA* gameArea, int  ship_id);
 

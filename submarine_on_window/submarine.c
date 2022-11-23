@@ -13,8 +13,8 @@
 #define IDB_BITMAP1 101
 
 PC_ENGINE pcEngineStruct;
-struct gameArea gameUserArea;
-struct gameArea gamePCArea;
+GAME_AREA gameUserArea;
+GAME_AREA gamePCArea;
 
 int shipsIsGenerated = 0;
 int gameIsOn = 0;
