@@ -59,6 +59,12 @@
     <ClCompile Include="gameArea.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="draw.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="controls.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="submarine_on_window.rc">

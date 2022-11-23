@@ -139,6 +139,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="controls.c" />
+    <ClCompile Include="draw.c" />
     <ClCompile Include="gameArea.c" />
     <ClCompile Include="PCEngine.c" />
     <ClCompile Include="ships.c" />
