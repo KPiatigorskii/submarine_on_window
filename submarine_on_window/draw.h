@@ -2,13 +2,14 @@
 #include <windows.h>
 #include <windowsx.h>
 #include "gameArea.h"
-#pragma once
 #include "controls.h"
 #include "constants.h"
 
 extern int pcTurn;
 extern int userTurn;
 extern int gameIsOn;
+extern int gameType;
+extern HWND hStaticLabel;
 int msgBox;
 
 #define START_X_USER_POSITION 150
@@ -36,7 +37,7 @@ void changeOtherImage(GAME_AREA* gameArea, HWND hCell[AREA_SIZE_WITH_BORDERS][AR
 
 void changeAroundImage(GAME_AREA* gameArea, int shipId, HWND hWnd, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS]);
 
-int shootCell(GAME_AREA* gameArea, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], int x, int y, HWND hWnd);
+int shootCell(GAME_AREA* gameArea, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], int x, int y, HWND hWnd, HWND hStaticLabel);
 
 void clearAllWindow();
 

@@ -89,7 +89,7 @@ void changeAroundImage(GAME_AREA* gameArea, int shipId, HWND hWnd, HWND hCell[AR
 }
 
 
-int shootCell(GAME_AREA* gameArea, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], int x, int y, HWND hWnd)
+int shootCell(GAME_AREA* gameArea, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], int x, int y, HWND hWnd, HWND hStaticLabel)
 {
     HBITMAP hCellImage;
     LPCWSTR imageName;
@@ -120,47 +120,87 @@ int shootCell(GAME_AREA* gameArea, HWND hCell[AREA_SIZE_WITH_BORDERS][AREA_SIZE_
         if (gameArea->deadShipsCount == 10)
         {
             gameIsOn = 2;
-            if (gameArea->gameEntity == PC_ENTITY)
-            {
-                //change_other_image(game_area, hUserCell, hWnd);
+
+            if (gameType == 0) { // Player vs PC
+                if (gameArea->gameEntity == PC_ENTITY)
+                {
+                    //change_other_image(game_area, hUserCell, hWnd);
+                    PlaySound(win_game_sound, NULL, SND_ASYNC | SND_FILENAME);
+                    msgBox = MessageBox(hWnd, TEXT("YOU'RE WINNER!  Would you retry?"),
+                        TEXT("win window"), MB_OKCANCEL);
+                    gameIsOn = 0;
+                }
+                if (gameArea->gameEntity == USER_ENTITY)
+                {
+                    //change_other_image(game_area, hPCCell, hWnd);
+                    PlaySound(gameOverSound, NULL, SND_ASYNC | SND_FILENAME);
+                    msgBox = MessageBox(NULL, TEXT("YOU'RE NOT WINNER! Would you retry?"),
+                        TEXT("lose window"), MB_OKCANCEL);
+                    gameIsOn = 0;
+                }
+
+
+                switch (msgBox)
+                {
+                case IDOK:
+                    SendMessageW(hWnd, WM_COMMAND, NEW_GAME_WITH_PC, 0);
+                    break;
+                case IDCANCEL:
+                    SendMessageW(hWnd, WM_DESTROY, 0, 0);
+                    break;
+                }
+            }
+            else {// PC vs PC mode
                 PlaySound(win_game_sound, NULL, SND_ASYNC | SND_FILENAME);
-                msgBox = MessageBox(hWnd, TEXT("YOU'RE WINNER!  Would you retry?"),
+                if (gameArea->gameEntity == PC_ENTITY)
+                    msgBox = MessageBox(hWnd, TEXT("PC #2 WIN! Would you retry?"),
                     TEXT("win window"), MB_OKCANCEL);
-
+                else
+                    msgBox = MessageBox(hWnd, TEXT("PC #1 WIN! Would you retry?"),
+                        TEXT("win window"), MB_OKCANCEL);
                 gameIsOn = 0;
-            }
-            if (gameArea->gameEntity == USER_ENTITY)
-            {
-                //change_other_image(game_area, hPCCell, hWnd);
-                PlaySound(gameOverSound, NULL, SND_ASYNC | SND_FILENAME);
-                msgBox = MessageBox(NULL, TEXT("YOU'RE NOT WINNER! Would you retry?"),
-                    TEXT("lose window"), MB_OKCANCEL);
-                gameIsOn = 0;
-            }
 
-
-            switch (msgBox)
-            {
-            case IDOK:
-                SendMessageW(hWnd, WM_COMMAND, NEW_GAME_WITH_PC, 0);
-                break;
-            case IDCANCEL:
-                SendMessageW(hWnd, WM_DESTROY, 0, 0);
-                break;
+                switch (msgBox)
+                {
+                case IDOK:
+                    SendMessageW(hWnd, WM_COMMAND, NEW_GAME_PC_VS_PC, 0);
+                    break;
+                case IDCANCEL:
+                    SendMessageW(hWnd, WM_DESTROY, 0, 0);
+                    break;
+                }
             }
         }
     }
     else {
-        if (gameArea->gameEntity == PC_ENTITY) {
-            pcTurn = 1;
+        switch (gameArea->gameEntity) // change turn 
+        {
+        case PC2_ENTITY:
+            SetWindowText(hStaticLabel, TEXT("PC #2 turn! "));
+            pcTurn = 2;
             userTurn = 0;
-        }
-        else {
+            break;
+        case PC_ENTITY:
+            if (gameType == 0) {
+                SetWindowText(hStaticLabel, TEXT("PC turn! "));
+                pcTurn = 1;
+                userTurn = 0;
+            }
+            else {
+                SetWindowText(hStaticLabel, TEXT("PC #1 turn! "));
+                pcTurn = 1;
+                userTurn = 0;
+            }
+            break;
+        case USER_ENTITY:
+            SetWindowText(hStaticLabel, TEXT("Your turn!"));
             pcTurn = 0;
             userTurn = 1;
-            SetWindowText(hStaticLabel, TEXT("Your turn!"));
+            break;
+        default:
+            
+            break;
         }
-
     }
     return gameArea->area[y][x];
 }
