@@ -15,20 +15,23 @@
 PC_ENGINE pcEngineStruct;
 GAME_AREA gameUserArea;
 GAME_AREA gamePCArea;
+GAME_AREA gamePC2Area;
 
 int shipsIsGenerated = 0;
-int gameIsOn = 0;
-int pcTurn = 0;
+int gameIsOn = 0; // 0 - no game, 1 - user vs pc, 2 - pc vs pc
+int pcTurn = 0; // 1 for pc in pc_vs_user and 1st pc for pc_vs_pc, 2 - 2nd pc in pc_vs_pc
 int userTurn = 0;
 
 LRESULT CALLBACK WindProc(HWND, UINT, WPARAM, LPARAM);
 
 HWND hLogo;
 
-HWND hUserArea, hPCArea, hWndExample, hWndTurn;
+HWND hUserArea, hPCArea, hPC2Area, hWndExample, hWndTurn;
 
-HBITMAP hLogoImage, hCellUserImage[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS];
-HBITMAP hCellPCImage[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS], hGenerateImage;
+HBITMAP hCellUserImage[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS];
+HBITMAP hCellPCImage[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS];
+HBITMAP hCellPC2Image[AREA_SIZE_WITH_BORDERS][AREA_SIZE_WITH_BORDERS];
+HBITMAP hLogoImage, hGenerateImage;
 HBITMAP hBitmap;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)

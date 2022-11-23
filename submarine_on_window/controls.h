@@ -7,6 +7,7 @@
 #define FILE_MENU_EXIT 3
 #define NEW_GAME 4
 #define NEW_GAME_WITH_PC 5
+#define NEW_GAME_PC_VS_PC 8
 #define GENERATE_SHIPS 6
 #define START_GAME 7
 

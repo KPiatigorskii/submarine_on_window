@@ -9,7 +9,8 @@ void AddMenus(HWND hWnd)
     HMENU hSubMenu = CreateMenu();
 
     AppendMenu(hSubMenu, MF_STRING, (UINT_PTR)NULL, TEXT("SubMenu"));
-    AppendMenu(hFileMenu, MF_STRING, NEW_GAME_WITH_PC, TEXT("New game with PC"));
+    AppendMenu(hFileMenu, MF_STRING, NEW_GAME_WITH_PC, TEXT("New game with PC")); 
+    AppendMenu(hFileMenu, MF_STRING, NEW_GAME_PC_VS_PC, TEXT("New game PC vs PC"));
     AppendMenu(hFileMenu, MF_SEPARATOR, (UINT_PTR)NULL, (UINT_PTR)NULL);
     AppendMenu(hFileMenu, MF_STRING, FILE_MENU_EXIT, TEXT("Exit"));
 
