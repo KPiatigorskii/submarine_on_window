@@ -13,6 +13,7 @@
 #define IDB_BITMAP1 101
 
 PC_ENGINE pcEngineStruct;
+PC_ENGINE pc2EngineStruct;
 GAME_AREA gameUserArea;
 GAME_AREA gamePCArea;
 GAME_AREA gamePC2Area;
@@ -21,6 +22,7 @@ int shipsIsGenerated = 0;
 int gameIsOn = 0; // 0 - no game, 1 - user vs pc, 2 - pc vs pc
 int pcTurn = 0; // 1 for pc in pc_vs_user and 1st pc for pc_vs_pc, 2 - 2nd pc in pc_vs_pc
 int userTurn = 0;
+int gameType = 0; // 0 - user vs pc, 1 - pc vs pc
 
 LRESULT CALLBACK WindProc(HWND, UINT, WPARAM, LPARAM);
 
@@ -87,51 +89,93 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_COMMAND:
         switch (wParam)
         {
-        case NEW_GAME_WITH_PC:
-            PlaySound(NULL, NULL, 0);
-            shipsIsGenerated = 0;
-            gameIsOn = 0;
-            userTurn = 0;
-            pcTurn = 0;
-            AddGameControls(hWnd);
-            pcEngineStruct = initPCLogic();
-            gamePCArea = initGameArea(START_X_PC_POSITION, START_Y_PC_POSITION, PC_ENTITY);
-            gameUserArea = initGameArea(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
-            DestroyWindow(hStaticLabel);
-            clearArea(hPCCell);
-            loadDefaultImages(&gamePCArea, hWnd, hPCCell);
-
-            clearArea(hUserCell);
-            loadDefaultImages(&gameUserArea, hWnd, hUserCell);
-            break;
-        case GENERATE_SHIPS:
-            if (!gameIsOn)
-            {
-                clearArea(hUserCell);
-                gameUserArea = initGameArea(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
-                openArea(&gameUserArea, hWnd, hUserCell);
-                //clearArea(hPCCell); // uncomment for debug and see all PC ships
-                //openArea(&gamePCArea, hWnd, &hPCCell); // uncomment for debug and see all PC ships
-                shipsIsGenerated = 1;
-            }
-            break;
-        case START_GAME:
-            if (!gameIsOn && shipsIsGenerated)
-            {
-                PlaySound(startGameSound, NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
-                SetTimer(hWnd, ID_TIMER, 250, NULL);
-                gameIsOn = 1;
-                hStaticLabel = CreateWindow(TEXT("Static"), TEXT("Your turn"), WS_CHILD | WS_VISIBLE | SS_CENTER, 535, 15, 120, 25, hWnd, 0, gHInst, 0);
-                RemoveGameControlsBeforeStart();
+            case NEW_GAME_WITH_PC:
+                PlaySound(NULL, NULL, 0);
+                shipsIsGenerated = 0;
+                gameIsOn = 0;
+                userTurn = 0;
                 pcTurn = 0;
-                userTurn = 1;
-            }
-            break;
-        case FILE_MENU_EXIT:
-            DestroyWindow(hWnd);
-            break; 
-        default:
-            break;
+                gameType = 0;
+                AddGameControls(hWnd);
+                pcEngineStruct = initPCLogic();
+                gamePCArea = initGameArea(START_X_PC_POSITION, START_Y_PC_POSITION, PC_ENTITY);
+                gameUserArea = initGameArea(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
+                DestroyWindow(hStaticLabel);
+                clearArea(hPCCell);
+                loadDefaultImages(&gamePCArea, hWnd, hPCCell);
+
+                clearArea(hUserCell);
+                loadDefaultImages(&gameUserArea, hWnd, hUserCell);
+                break;
+            case NEW_GAME_PC_VS_PC:
+                PlaySound(NULL, NULL, 0);
+                shipsIsGenerated = 0;
+                gameIsOn = 0;
+                userTurn = 0;
+                pcTurn = 0;
+                gameType = 1;
+                AddGameControls(hWnd);
+
+                pcEngineStruct = initPCLogic();
+                pc2EngineStruct = initPCLogic();
+                gamePCArea = initGameArea(START_X_PC_POSITION, START_Y_PC_POSITION, PC_ENTITY);
+                gamePC2Area = initGameArea(START_X_PC2_POSITION, START_Y_PC2_POSITION, PC2_ENTITY);
+                DestroyWindow(hStaticLabel);
+                clearArea(hPCCell);
+                loadDefaultImages(&gamePCArea, hWnd, hPCCell);
+
+                clearArea(hPC2Cell);
+                loadDefaultImages(&gamePC2Area, hWnd, hPC2Cell);
+                break;
+            case GENERATE_SHIPS:
+
+                if (!gameIsOn)
+                {
+                    switch (gameType)
+                    {
+                    case 0:
+                        clearArea(hUserCell);
+                        gameUserArea = initGameArea(START_X_USER_POSITION, START_Y_USER_POSITION, USER_ENTITY);
+                        openArea(&gameUserArea, hWnd, hUserCell);
+                        //clearArea(hPCCell); // uncomment for debug and see all PC ships
+                        //openArea(&gamePCArea, hWnd, &hPCCell); // uncomment for debug and see all PC ships
+                        shipsIsGenerated = 1;
+                        break;
+                    case 1:
+                        clearArea(hPCCell);
+                        clearArea(hPC2Cell);
+
+                        gamePCArea = initGameArea(START_X_PC_POSITION, START_Y_PC_POSITION, PC_ENTITY);
+                        openArea(&gamePCArea, hWnd, hPCCell);
+                        Sleep(1100);
+                        gamePC2Area = initGameArea(START_X_PC2_POSITION, START_Y_PC2_POSITION, PC2_ENTITY);
+                        openArea(&gamePC2Area, hWnd, hPC2Cell);
+                        //clearArea(hPCCell); // uncomment for debug and see all PC ships
+                        //openArea(&gamePCArea, hWnd, &hPCCell); // uncomment for debug and see all PC ships
+                        shipsIsGenerated = 1;
+                        break;
+                    default:
+                        break;
+                    }
+                }
+                break;
+            case START_GAME:
+                if (!gameIsOn && shipsIsGenerated)
+                {
+                    PlaySound(startGameSound, NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
+                    SetTimer(hWnd, ID_TIMER, 250, NULL);
+                    gameIsOn = 1;
+                    hStaticLabel = CreateWindow(TEXT("Static"), TEXT("Your turn"), WS_CHILD | WS_VISIBLE | SS_CENTER, 535, 15, 120, 25, hWnd, 0, gHInst, 0);
+                    RemoveGameControlsBeforeStart();
+                    pcTurn = 0;
+                    userTurn = 1;
+                }
+                break;
+            case FILE_MENU_EXIT:
+                DestroyWindow(hWnd);
+                break; 
+            default:
+                break;
         }
     case WM_CREATE:
         AddMenus(hWnd);

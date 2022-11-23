@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <windows.h>
 #include <string.h>
 
 #define MAX_CELLS_IN_AREA 10

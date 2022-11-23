@@ -1,5 +1,6 @@
 #pragma once
 #include "gameArea.h"
+#include <windows.h>
 
 int shipCellArray[10] = { 4,3,3,2,2,2,1,1,1,1 };
 
@@ -13,7 +14,6 @@ void incrementClickedCells(GAME_AREA* gameArea, int x, int y)
 GAME_AREA initGameArea(int startPosX, int startPosY, enum gameEntity gameEntity)
 {
     GAME_AREA gameArea;
-
     gameArea.shipCounter = 0;
     gameArea.moveCounter = 0;
     gameArea.deadShipsCount = 0;
